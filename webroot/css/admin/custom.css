@@ -1,0 +1,191 @@
+body{
+    padding: 0px !important;
+}
+.search_form .row {
+    width: 100%;
+}
+.search_form .form-control {
+    width: 100%;
+    margin-bottom: 10px;
+}
+.search_form .input.text {
+    width: 100%;
+}
+.search_form .input {
+    width: 100%;
+}
+.site_btn_color, a.btn.btn-default {
+    position: relative;
+    top: -4px;
+    margin-right: 5px;
+}
+.alert-danger, .alert-error, .bg-danger, .label-danger, .alert-success, .bg-success, .label-success {
+    padding: 2px 5px;
+    border-radius: 4px;
+}
+.site_flash_msg .alert.alert-danger, .site_flash_msg .alert.alert-success {
+    opacity: 1;
+    text-align: left;
+    margin-left: 250px !important;
+    margin: 5px;
+}
+span.iconSpan {
+    display: inline-block;
+    width: 100%;
+}
+.collapseBtn {
+    width: 100%;
+    text-align: left;
+}
+  
+  
+  
+  
+/****pagination css start****/
+.pagination {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+    border-radius: .25rem;
+}
+.page-link:not(:disabled):not(.disabled) {
+    cursor: pointer;
+}
+.pagination li a {
+    position: relative;
+    display: block;
+    padding: .5rem .75rem;
+    margin-left: -1px;
+    line-height: 1.25;
+    color: #398de0;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+}
+.page-item:first-child .page-link {
+    margin-left: 0;
+    border-top-left-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+}
+.page-item:last-child .page-link {
+    border-top-right-radius: .25rem;
+    border-bottom-right-radius: .25rem;
+} 
+.pagination li a:hover,
+.pagination li.active a {
+    color: #fff;
+    text-decoration: none;
+	background-color: #197de8;
+    border-color: #007bff;
+}
+.sidebar-collapse img.website {
+    display: none;
+}
+.sidebar-collapse .logo_change img.website {
+    display: block !important;
+}
+.sidebar-collapse img.mobile {
+    display: block !important;
+    width: 52px;
+}
+.sidebar-collapse .logo_change img.mobile {
+    display: none !important;
+    width: 52px;
+}
+
+ 
+
+a.btn.btn-primary.collapseBtn{
+    position:relative;
+}
+a.btn.btn-primary.collapseBtn::after {
+    content: "\F078";
+    font-family: FontAwesome;
+    position: absolute;
+    right: 13px;
+}
+a.btn.btn-primary.collapseBtn.opened::after {
+    transform: rotate(-180deg);
+}
+.pagination {
+    display: flex;
+    padding-left: 144px;
+}
+div#example1_filter {
+    margin-left: 280px;
+}
+nav.mt-2 {
+    padding-bottom: 40px;
+}
+.sidebar-mini .nav-sidebar .nav-link {
+    font-size: 14px;
+    padding: 8px 5px;
+}
+select.form-control.form-control-sm {
+    height: 36px!important;
+}
+#example1 thead th.last_td, #example1 tbody td.last_td {
+    width: 150px !important;
+    max-width: 150px !important;
+    min-width: 150px !important;
+}
+
+
+/*******new accourdion css start*****/
+.custom_accourdion .card-header {
+    padding: 0px;
+    border: 0px;
+}
+.custom_accourdion .card {
+    box-shadow: none;
+    border: 0px;
+}
+.custom_accourdion .card-header button {
+    background-color: #007bff !important;
+    width: 100%;
+    text-align: left;
+    color: #fff;
+    box-shadow: none !important;
+    text-decoration: none;
+    position: relative;
+    background: url(../img/collapse_plus.png) no-repeat 99% center;
+}
+.custom_accourdion .card-body {
+    padding: 10px;
+    margin: 10px 0px;
+    border: 1px solid rgba(0,0,0,.125);
+    box-shadow: 0px 0px 3px #cccccc5e;
+    border-radius: 3px;
+}
+.custom_accourdion .card-header button[aria-expanded="true"] {
+    background: url(../img/collapse_minus.png) no-repeat 99% center;
+}
+
+
+@media(max-width: 991px){
+    .site_flash_msg .alert.alert-danger{
+        margin-left: 5px !important;
+    }
+}
+@media(max-width: 768px){
+    .control-sidebar, .control-sidebar:before{
+		display:none;
+	}
+}
+span.required {font-weight:bold;color:#f00 !important;}
+.error-message {color:#f00 !important;}
+
+.table-responsive table .btn {
+    margin-bottom: 5px;
+}
+
+.filter_list{
+    width: 136px;
+}
+.select_mem{
+    width: 560px;
+}
+
+
+
