@@ -5,8 +5,8 @@ use Cake\Routing\Router;
 
 $siteFolder = dirname(dirname($_SERVER['SCRIPT_NAME']));
 $config['App.siteFolder'] = $siteFolder;
-$config['Site.Title'] 		= 		'LFG DRAFT';
-$config['AdminEmail'] 		= 		'admin@lfgdraft.com';
+$config['Site.Title'] 		= 		'All Stars';
+$config['AdminEmail'] 		= 		'admin@allstar.com';
 
 if (isset($_SERVER['HTTPS'])) {
     if ($_SERVER['HTTPS'] == "on") {

@@ -31,7 +31,49 @@
 											echo $this->Form->input('admin_email',['escape'=>false,'class' => 'form-control','label'=>'Admin Email <span class="required">*</span>', 'placeholder' => __('Admin Email')]);
 										?>
 									</div>
+
 									<div class="form-group">
+										<?php
+											echo $this->Form->input('phone',['escape'=>false,'class' => 'form-control','label'=>'Admin Phone <span class="required">*</span>', 'placeholder' => __('Admin Phone')]);
+										?>
+									</div>
+
+									<div class="form-group">
+										<?php
+											echo $this->Form->input('address',['escape'=>false,'class' => 'form-control','label'=>'Admin Address <span class="required">*</span>', 'placeholder' => __('Admin Address')]);
+										?>
+									</div>
+
+									<div class="form-group">
+										<?php
+											echo $this->Form->input('facbook_url',['type'=>'text','escape'=>false,'class' => 'form-control','label'=>'Admin Facebook <span class="required">*</span>', 'placeholder' => __('Admin Facebook')]);
+										?>
+									</div>
+
+									<div class="form-group">
+										<?php
+											echo $this->Form->input('youtube_link',['type'=>'text','escape'=>false,'class' => 'form-control','label'=>'Admin Youtube <span class="required">*</span>', 'placeholder' => __('Admin Youtube')]);
+										?>
+									</div>
+
+									<div class="form-group">
+										<?php
+											echo $this->Form->input('instagram_url',['type'=>'text','escape'=>false,'class' => 'form-control','label'=>'Admin Address <span class="required">*</span>', 'placeholder' => __('Admin Address')]);
+										?>
+									</div>
+
+									<div class="form-group">
+										<?php
+											echo $this->Form->input('linkdin_url',['type'=>'text','escape'=>false,'class' => 'form-control','label'=>'Lindkin<span class="required">*</span>', 'placeholder' => __('Admin Linkdin')]);
+										?>
+									</div>
+
+									
+
+									
+
+
+									<!-- <div class="form-group">
 										<?php
 											echo $this->Form->input('admin_percentage',['escape'=>false,'class' => 'form-control','label'=>'Usable Bonus Percentage', 'placeholder' => __('Usable Bonus Percentage'),'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"]);
 										?>
@@ -51,11 +93,11 @@
 											echo $this->Form->input('min_deposit_for_referral',['maxlength'=>'8','escape'=>false,'class' => 'form-control','label'=>'Minimum Deposit For Referral (INR)', 'placeholder' => __('Minimum Deposit For Referral (INR)'),'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"]);
 										?>
 									</div>
-									<!-- <div class="form-group">
+									<<div class="form-group">
 										<?php
 											/* echo $this->Form->input('contest_commission',['maxlength'=>'5','type'=>'text','escape'=>false,'class' => 'form-control','label'=>'Contest Commission (In percentage)', 'placeholder' => __('Contest Commission'),'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"]); */
 										?>
-									</div> -->
+									</div> 
 									<div class="form-group">
 										<?php
 											echo $this->Form->input('min_withdraw_amount',['maxlength'=>'7','type'=>'text','escape'=>false,'class' => 'form-control','label'=>'Minimum Withdraw Amount (INR)', 'placeholder' => __('Minimum Withdraw Amount'),'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"]);
@@ -95,7 +137,7 @@
 										<?php
 											echo $this->Form->input('bonus_last',['maxlength'=>'5','type'=>'text','escape'=>false,'class' => 'form-control','label'=>'Bonus 80 %', 'placeholder' => __('Enter Points'),'oninput'=>"this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"]);
 										?>
-									</div>
+									</div> -->
 
 									<?php /*
 									<div class="form-group">

@@ -572,9 +572,11 @@ class UsersController extends AppController {
 	
 	public function changePassword() {
 		$this->set('title_for_layput','Change Password');
+
 		$session	=	$this->request->session();
 		$authUserId	=	$session->read('Auth.Admin.id');
 		$user		=	$this->Users->get($authUserId);
+		$authUser		=	$this->Auth->user();
 		if($this->request->is(['post','put','patch'])) {
 			$user		=	$this->Users->get($authUserId);
 			$this->Users->patchEntity($user, $this->request->getData(), ['validate'=>'adminChangePassword']);
@@ -590,7 +592,7 @@ class UsersController extends AppController {
 		$this->set(compact('authUser','user'));
 	}
 	
-	public function profile() {
+	public function profile() { 
 		$this->set('title_for_layput','Change Password');
 		$session	=	$this->request->session();
 		$authUser	=	$session->read('Auth.Admin.id');
@@ -598,6 +600,7 @@ class UsersController extends AppController {
 		if($this->request->is(['post','put'])) {
 			$this->Users->patchEntity($user, $this->request->getData(), ['validate'=>'updateProfile']);
 			if(!$user->getErrors()) {
+				$user->user_name = $this->request->getData('first_name').' '.$this->request->getData('last_name');
 				if($this->Users->save($user)) {
 					$this->Flash->success(__('Profile has been updated successfully.',true));
 					$this->redirect(['controller'=>'users','action'=>'profile']);

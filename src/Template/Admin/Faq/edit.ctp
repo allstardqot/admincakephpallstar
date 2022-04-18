@@ -8,13 +8,13 @@
 		<div class="container-fluid">
 			<div class="row mb-2">
 				<div class="col-sm-6">
-					<h1>Edit Content</h1>
+					<h1>Add FAQ </h1>
 				</div>
 				<div class="col-sm-6">
 					<ol class="breadcrumb float-sm-right">
 						<li class="breadcrumb-item"><a href="<?=SITE_URL?>admin/">Home</a></li>
-                        <li class="breadcrumb-item"><a href="<?=SITE_URL?>admin/contents">Content List</a></li>
-						<li class="breadcrumb-item active">Edit Content</li>
+                        <li class="breadcrumb-item"><a href="<?=SITE_URL?>admin/faq">FAQ Manager</a></li>
+						<li class="breadcrumb-item active">Add FAQ</li>
 					</ol>
 				</div>
 			</div>

@@ -33,101 +33,93 @@ class SubAdminsController extends AppController {
 		$this->set('title_for_layout', __('Sub Admin List'));
 		$role_id=	Configure::read('ROLES.User');
 		$limit	=	Configure::read('ADMIN_PAGE_LIMIT');
+		$this->loadModel('Users');
 		if($this->request->is('Ajax')) {
 			$this->viewBuilder()->layout(false);
 		}
+		$reqData=$this->request->query;
 		
-		$query	=	$this->Users->find('search', ['search' => $this->request->query])->where(['Users.role_id' => 2]);
+		$condition='';
+		if(!empty($reqData)){
+			 //$condition=['OR'=>[['full_name'=>$reqData['full_name']],['email'=>$reqData['email']],['phone'=>$reqData['phone']],['created'=>$reqData['created']],['modified'=>$reqData['modified']]]];
+			 if(!empty($reqData['user_name'])){
+				 $condition=['user_name' => $reqData['user_name']];
+			 }
+		}
+		if ( $this->request->is('post') && $this->request->getData('action') == 'addsubadmin'  ) { 
+			$adminUser	=	$this->Users->newEntity();
+			// pr($this->request->getData());die;
+			$this->Users->patchEntity($adminUser, $this->request->getData());
+			$adminUser->role_id = 2;
+			$adminUser->user_name = $this->request->getData('first_name').' '.$this->request->getData('last_name');
+			// pr($this->request->getData('password'));die;
+			$adminUser->password = $this->request->getData('pass');
+			// pr($adminUser);die;
+			if($this->Users->save($adminUser)){
+				$this->Flash->success(__('Admin has been added.'));
+				return $this->redirect(['action' => 'index']);
+			}
+
+		}
+
+		// pr($this->request->query);die;
+		$query	=	$this->Users->find()->where([$condition,'Users.role_id' => 2]);
 		
 		$users = $this->paginate($query, ['limit' => $limit, 'order' => ['Users.id DESC']]);
 		$this->set(compact('users'));
 	}
 	
 	public function add() {
-		$this->set('title_for_layout', __('Add Sub Admin'));
+		$this->set('title_for_layout', __('Add Admin'));
 		$this->loadModel('Users');
 		$this->loadModel('EmailTemplates');
 		$adminUser	=	$this->Users->newEntity();
 		if ($this->request->is(['patch', 'post', 'put'])) {
-			$this->request->data['current_password']	=	$this->request->getData('password');
-			$this->Users->patchEntity($adminUser, $this->request->getData(), ['validate' => 'AddSubAdmin']);
-			if(empty($adminUser->errors())) {
-				if($this->request->getData('image')['name']) {
-					$file	=	$this->request->getData('image');
-					$fileArr	=	explode('.',$file['name']);
-					$ext		=	end($fileArr);
-					$fileName	=	'user_'.time().'.'.$ext;
-					$filePath	=	WWW_ROOT .'uploads/users/'.$fileName;
-					if(move_uploaded_file($file['tmp_name'],$filePath)) {
-						$adminUser->image	=	$fileName;
-					}
-				} else {
-					$adminUser->image	=	$adminUser->image;
-				}
+			// $this->request->data['current_password']	=	$this->request->getData('password');
+			$this->Users->patchEntity($adminUser, $this->request->getData());
+			// if(empty($adminUser->errors())) {
+				
 				$adminUser->role_id	=	'2';
 				$adminUser->status	=	1;
 				$adminUser->created	=	date("Y-m-d h:i:s");
 				$adminUser->modified=	date("Y-m-d h:i:s");
 				if($result = $this->Users->save($adminUser)) {
-					if(!empty($result)) {
-						$emailTemplate	=	$this->get_email_template('sub_admin_user');
-						$to		=	$result->email;
-						$from		=	Configure::read('Admin.setting.admin_email');	
-						$subject=	$emailTemplate->email_name;
-						$message=	str_replace(['{{user}}','{{email}}','{{password}}'],[$adminUser->first_name,$adminUser->email,$adminUser->current_password],$emailTemplate->template);
-						$this->sendMail($to, $subject, $message, $from);
-					}
-					$this->Flash->success(__('Sub admin has been added.'));
+					
+					$this->Flash->success(__('Admin has been added.'));
 					return $this->redirect(['action' => 'index']);
 				}
-				$this->Flash->error(__('Sub admin could not be added, please try again.'));
-			} else {
-				$this->Flash->error(__('Please correct errors listed as below.'));
-			}
+				// $this->Flash->error(__('Admin could not be added, please try again.'));
+		} else {
+			$this->Flash->error(__('Please correct errors listed as below.'));
 		}
+		// }
 		$this->set(compact('adminUser'));
 	}
 	
-	public function edit($id = NULL) {
-		$this->set('title_for_layout', __('Edit User'));
+	public function edit() {
+		$this->viewBuilder()->setLayout('ajax');
 		$this->loadModel('Users');
-		try {
-			$adminUser	=	$this->Users->get($id);
-		} catch (\Throwable $e) {
-			$this->Flash->error(__('Invaild attempt.'));
-			return $this->redirect(['action' => 'index']);
-		} catch (\Exception $e) {
-			$this->Flash->error(__('Invaild attempt.'));
-			return $this->redirect(['action' => 'index']);
-		}
-		if ($this->request->is(['patch', 'post', 'put'])) {
-			$this->Users->patchEntity($adminUser, $this->request->getData(), ['validate' => 'EditSubAdmin']);
-			if (empty($adminUser->errors())) {
-				if($this->request->getData('image')['name']) {
-					$file	=	$this->request->getData('image');
-					$fileArr	=	explode('.',$file['name']);
-					$ext		=	end($fileArr);
-					$fileName	=	'user_'.time().'.'.$ext;
-					$filePath	=	WWW_ROOT .'uploads/users/'.$fileName;
-					if(move_uploaded_file($file['tmp_name'],$filePath)) {
-						$adminUser->image	=	$fileName;
-					}
-				}
-				$adminUser->modified=	date("Y-m-d h:i:s");
-				if($adminUser->password == ''){
-					unset($adminUser->password);
-				}
-				if($adminUser->image == ''){
-					unset($adminUser->image);
-				}
-				if ($this->Users->save($adminUser)) {
-					$this->Flash->success(__('Sub Admin has been updated'));
-					return $this->redirect(['action' => 'index']);
-				}
-				$this->Flash->error(__('Sub admin could not be added, please try again.'));
-			} else {
-				$this->Flash->error(__('Please correct errors listed as below.'));
+
+		$eid = $_POST['eid'];
+		// echo $eid;die;
+		$adminUser	=	$this->Users->get($eid);
+		// pr($this->request->getData('action'));die;
+		if ( $this->request->getData('action') == 'editsubadmin' ) {
+			$eid = $this->request->getData('eid');
+			$adminUser	=	$this->Users->get($eid);
+			$this->Users->patchEntity($adminUser, $this->request->getData());
+			
+			
+			$adminUser->modified =	date("Y-m-d h:i:s");
+			$adminUser->user_name = $this->request->getData('first_name').' '.$this->request->getData('last_name');
+			if ($this->Users->save($adminUser)) {
+				$this->Flash->success(__(' Admin has been updated'));
+				return $this->redirect(['action' => 'index']);
 			}
+				// $this->Flash->error(__('Sub admin could not be added, please try again.'));
+			// }else {
+			// 	$this->Flash->error(__('Please correct errors listed as below.'));
+			// }
 		}
 		$this->set(compact('adminUser'));
 	}

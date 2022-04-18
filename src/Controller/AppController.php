@@ -16,7 +16,7 @@
 
 namespace App\Controller;
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/vendor/twilio/vendor/autoload.php');
+// require_once(SITE_URL. '/vendor/twilio/vendor/autoload.php');
 
 //App::import('Vendor', 'twilio/vendor/Search/Lucene');
 use Twilio\Rest\Client;
@@ -227,10 +227,12 @@ class AppController extends Controller {
 		
 		if (isset($this->request->params['prefix']) && $this->request->params['prefix'] == 'admin') {
 			$loggedInUser = $this->Auth->user();
+			$this->set('loggedInUser',$loggedInUser);
 			if(!empty($loggedInUser)){
 				$this->_checkPermission();
 			}
 		}
+		$this->defineConfigConstant();
 		
     }
 

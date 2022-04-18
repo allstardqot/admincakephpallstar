@@ -1,6 +1,6 @@
 <div class="login-box">
 	<div class="login-logo">
-		<a href="<?php echo SITE_URL."admin" ?>"><img style="width:25%;" src="<?php echo SITE_URL.'webroot/dist/img/adminlogo.png' ?>"></a>
+		<a href="<?php echo SITE_URL ?>"><img style="width:25%;" src="<?php echo SITE_URL.'/webroot/dist/img/adminlogo.png' ?>"></a>
 	</div>
 	<!-- /.login-logo -->
 	<div class="card">

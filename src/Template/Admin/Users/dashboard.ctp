@@ -64,51 +64,51 @@ div#example1_filter {
 			</div>
 
 			<div class="row">
-				<div class="col-md-3 col-lg-3 col-6">
+				<!-- <div class="col-md-3 col-lg-3 col-6">
 					<div class="small-box bg-danger">
 						<div class="inner">
-							<h3><?php echo $this->Custom->totalContest(); ?></h3>
+							<h3><?php  ?></h3>
 							<p>Created Contest</p>
 						</div>
 						<div class="icon">
 							<i class="ion ion-pie-graph"></i>
 						</div>
-						<?php echo $this->Html->link('<i class="fa fa-arrow-circle-right"></i>',['controller'=>'contest','action'=>'index'],['class'=>'small-box-footer','escape'=>false]); ?>
+						<?php echo $this->Html->link('<i class="fa fa-arrow-circle-right"></i>',['controller'=>'users','action'=>'index'],['class'=>'small-box-footer','escape'=>false]); ?>
 					</div>
-				</div>
-				<div class="col-md-3 col-lg-3 col-6">
+				</div> -->
+				<!-- <div class="col-md-3 col-lg-3 col-6">
 					<div class="small-box bg-warning">
 						<div class="inner">
-							<h3><?php echo $this->Custom->totalActiveContest(); ?></h3>
+							<h3><?php  ?></h3>
 							<p>Active Contest</p>
 						</div>
 						<div class="icon">
 							<i class="ion ion-person-add"></i>
 						</div>
-						<?php echo $this->Html->link('<i class="fa fa-arrow-circle-right"></i>',['controller'=>'contest','action'=>'index?status=active'],['class'=>'small-box-footer','escape'=>false]); ?>
+						<?php echo $this->Html->link('<i class="fa fa-arrow-circle-right"></i>',['controller'=>'users','action'=>'index?status=active'],['class'=>'small-box-footer','escape'=>false]); ?>
 					</div>
-				</div>
-				<div class="col-md-3 col-lg-3 col-6">
+				</div> -->
+				<!-- <div class="col-md-3 col-lg-3 col-6">
 					<div class="small-box bg-success">
 						<div class="inner">
-							<h3><?php echo $this->Custom->totalInactiveContest();?></h3>
+							<h3><?php ?></h3>
 							<p>Inactive Contest</p>
 						</div>
 						<div class="icon">
 							<i class="ion ion-stats-bars"></i>
 						</div>
-						<?php echo $this->Html->link('<i class="fa fa-arrow-circle-right"></i>',['controller'=>'contest','action'=>'index?status=deactive'],['class'=>'small-box-footer','escape'=>false]); ?>
+						<?php echo $this->Html->link('<i class="fa fa-arrow-circle-right"></i>',['controller'=>'users','action'=>'index?status=deactive'],['class'=>'small-box-footer','escape'=>false]); ?>
 					</div>
-				</div>
+				</div> -->
 				
 			</div>
 			
 			<?php if($authUser['role_id'] == 1) { ?>
-				<div class="row">
+				<!-- <div class="row">
 					<div class="col-md-12">
 						<div class="card">
 							<div class="card-header">
-								<h3 class="card-title">SubAdmin Last Login</h3>
+								<h3 class="card-title">Admin Last Login</h3>
 							</div>
 							<div class="card-body">
 								<div class="table-responsive">
@@ -146,14 +146,14 @@ div#example1_filter {
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> -->
 			<?php } ?>
 		</div>
 	</section>
 </div>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="<?= SITE_URL; ?>webroot/plugins/datatables/jquery.dataTables.js"></script>
-<script src="<?= SITE_URL; ?>webroot/plugins/datatables/dataTables.bootstrap4.js"></script>
+<script src="<?= SITE_URL; ?>/webroot/plugins/datatables/jquery.dataTables.js"></script>
+<script src="<?= SITE_URL; ?>/webroot/plugins/datatables/dataTables.bootstrap4.js"></script>
 <script type="text/javascript">
 	$(function () {
 	    $("#example1").DataTable();

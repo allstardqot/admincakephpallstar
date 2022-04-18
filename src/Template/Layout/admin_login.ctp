@@ -25,19 +25,19 @@
 			]);
 		?>
 		<!-- Theme style -->
-		<link rel="stylesheet" href="<?php echo SITE_URL; ?>webroot/dist/css/adminlte.min.css">
+		<link rel="stylesheet" href="<?php echo SITE_URL; ?>/webroot/dist/css/adminlte.min.css">
 		<!-- iCheck -->
-		<link rel="stylesheet" href="<?php echo SITE_URL; ?>webroot/plugins/iCheck/flat/blue.css">
+		<link rel="stylesheet" href="<?php echo SITE_URL; ?>/webroot/plugins/iCheck/flat/blue.css">
 		<!-- Morris chart -->
-		<link rel="stylesheet" href="<?php echo SITE_URL; ?>webroot/plugins/morris/morris.css">
+		<link rel="stylesheet" href="<?php echo SITE_URL; ?>/webroot/plugins/morris/morris.css">
 		<!-- jvectormap -->
-		<link rel="stylesheet" href="<?php echo SITE_URL; ?>webroot/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
+		<link rel="stylesheet" href="<?php echo SITE_URL; ?>/webroot/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
 		
 		<!-- Google Font: Source Sans Pro -->
 		<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-		<link rel="shortcut icon" href="<?= SITE_URL.'webroot/dist/img/favicon.png' ?>" type="image/x-icon">
-		<link rel="icon" href="<?= SITE_URL.'webroot/dist/img/favicon.png' ?>" type="image/x-icon">
-		<script src="<?= SITE_URL; ?>webroot/js/front_home/jquery.min.js"></script>
+		<!-- <link rel="shortcut icon" href="<?= SITE_URL.'/webroot/dist/img/favicon.png' ?>" type="image/x-icon"> -->
+		<!-- <link rel="icon" href="<?= SITE_URL.'/webroot/dist/img/favicon.png' ?>" type="image/x-icon"> -->
+		<script src="<?= SITE_URL; ?>/webroot/js/front_home/jquery.min.js"></script>
 		<script>
 		$(document).on('click','.close', function(){
             $('.site_flash_msg').hide();

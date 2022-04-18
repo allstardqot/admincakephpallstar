@@ -46,7 +46,7 @@ class  HomeController extends AppController {
 			text-align: center;
 			margin-top: 75px;
 			font-size: 35px;
-			color: brown;">Welcome to LFG DRAFT</div>';die;
+			color: brown;">Welcome to ALL STARS</div>';die;
 
 
 		$query = $this->request->query;

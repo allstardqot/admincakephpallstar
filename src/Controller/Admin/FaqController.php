@@ -19,7 +19,7 @@ class FaqController extends AppController {
 	}
 	
 	public function index() {
-		 $Faq = TableRegistry::get('faq');
+		 $Faq = TableRegistry::get('faqs');
 		$this->set('title_for_layout', __('Faq List'));
 		$limit	=	Configure::read('ADMIN_PAGE_LIMIT');
 		 $query = $Faq->find();
@@ -51,7 +51,7 @@ class FaqController extends AppController {
 	}
 	
 	public function edit($id= null) {
-		$Faqs = TableRegistry::get('faq');
+		$Faqs = TableRegistry::get('faqs');
 		$this->set('title_for_layout', __('Edit Faq Faq'));
 		$faq	=	$Faqs->get($id);
 		if($this->request->is(['patch', 'post', 'put'])) {
@@ -97,7 +97,7 @@ class FaqController extends AppController {
 	
 	public function view($id = null) {
 		$this->set('title_for_layout', __('View Content'));
-		$Faq = TableRegistry::get('faq');
+		$Faq = TableRegistry::get('faqs');
 		$result	=	$Faq->get($id);
 		$this->set(compact('result'));
 	}

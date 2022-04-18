@@ -23,50 +23,29 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                    <?php  echo $this->Form->create(null,['novalidate' => true, 'valueSources' => 'query', 'type' => 'get', 'class' => 'form-inline search_form']); ?>
 						<div class="row">
-							<div class="form-group col-sm-6 col-md-3">
-								<?php 
-									echo $this->Form->input('full_name',['class' => 'form-control', 'label' => false, 'placeholder' => __('Enter name')]);
-								?>
-							</div>
-							<div class="form-group col-sm-6 col-md-3">
-								<?php
-									echo $this->Form->input('email',['class' => 'form-control', 'label' => false, 'placeholder' => __('Email address')]);
-								?>
-							</div>
-							<div class="form-group col-sm-6 col-md-3">
-								<?php 
-									echo $this->Form->input('phone',['class' => 'form-control', 'label' => false, 'placeholder' => __('Phone number')]);
-								?>
-							</div>
-							<div class="form-group col-sm-6 col-md-3">
-								<?php           
-									echo $this->Form->input('created',["type" => "text",'readonly' => 'readonly','class' => 'form-control datepicker-input start_date', 'label' => false, 'placeholder' => __('Enter Registered From'),'required'=>false]);
-								?>
-							</div>
-						<!-- </div>
-						<div class="row"> -->
-							<div class="form-group col-sm-6 col-md-3">
-								<?php 
-									echo $this->Form->input('modified',["type" => "text",'readonly' => 'readonly','class' => 'form-control datepicker-input end_date', 'label' => false, 'placeholder' => __('To'),'required'=>false]);
-								?>
-							</div>
-							<div class="form-group col-sm-6 col-md-3">
-								<div class="input text">
-									<!-- <?php $checked	=	(!empty($unverified) && $unverified== 'checked') ? 'checked="checked"' : ''; ?>
-									<input type="checkbox" name="unverified" value="checked" <?php echo $checked; ?>> Show unverified users -->
-								</div>
-							</div>
-							<div class="form-group col-sm-6 col-md-3 ">
-								<?php
-									echo $this->Form->button(__('Search'),['type' => 'submit', 'class' => 'btn btn-default site_btn_color']);
-									
-									echo $this->Html->link('<i class="fa fa-undo"></i>'.__(' Reset'), array('controller' => 'users', 'action' => 'index'), array('class' => 'btn btn-default', 'escape' => false));
-								?>
+							<div class="col-md-8">
+								<?php  echo $this->Form->create(null,['novalidate' => true, 'valueSources' => 'query', 'type' => 'get', 'class' => 'form-inline search_form']); ?>
+								<div class="row ">
+									<div class="form-group col-sm-6 col-md-3">
+									<?php 
+										echo $this->Form->input('full_name',['class' => 'form-control', 'label' => false, 'placeholder' => __('Enter name')]);
+									?>
+									</div>
+									<div class="form-group col-sm-6 col-md-3 ">
+										<?php
+											echo $this->Form->button(__('Search'),['type' => 'submit', 'class' => 'btn btn-default site_btn_color']);
+											
+											echo $this->Html->link('<i class="fa fa-undo"></i>'.__(' Reset'), array('controller' => 'users', 'action' => 'index'), array('class' => 'btn btn-default', 'escape' => false));
+										?>
+									</div>
+								<?php echo $this->Form->end(); ?>
 							</div>
 						</div>
-						<?php echo $this->Form->end(); ?>
+						<div class="col-md-4 text-right">
+							<!-- <button class = 'btn btn-success site_btn_color' id="manageUser"><i class="fa fa-plus "></i></button> -->
+						</div>
+					</div>
                     </div>
                     <div class="card-header">
                       <h3 class="card-title" style="display: inline-block;">User Details</h3>
@@ -81,12 +60,14 @@
 									<tr>
 										<!-- <th><input type="checkbox" class="selectall" /></th> -->
 										<th>#</th>
-										<th><?php echo $this->Paginator->sort('Users.first_name', __('Name')) ?></th>
+										<th><?php echo $this->Paginator->sort('Users.user_name', __('Name')) ?></th>
 										<th class="userEmailField"><?php echo $this->Paginator->sort('Users.email', __('Email')) ?></th>
-										<th><?php echo $this->Paginator->sort('Users.phone', __('Phone number')) ?></th>
-										<th><?php echo $this->Paginator->sort('Users.created', __('Registration date')) ?></th>
-										<th><?php echo __('Approve Status');?></th>
-										<th><?php echo __('Status');?></th>
+										<th><?php echo $this->Paginator->sort('Users.phone', __('Phone')) ?></th>
+										<th><?php echo $this->Paginator->sort('Users.address', __('Address')) ?></th>
+										<th><?php echo $this->Paginator->sort('Users.color', __('Color')) ?></th>
+										<th><?php echo $this->Paginator->sort('Users.members', __('
+Members')) ?></th>
+										<th><?php echo __('Active Status');?></th>
 										<th><?php echo __('Action');?></th>
 									</tr>
 								</thead>
@@ -111,15 +92,17 @@
 													echo ($pl*$pc)+$start;
 												?>
 												</td>
-												<td><?php echo h($value->full_name); ?></td>
+												<td><?php echo h($value->user_name); ?></td>
 												<td class="userEmailField"><?php echo h($value->email); ?></td>
 												<td><?php echo h($value->phone); ?></td>
-												<td><?php echo h(date("Y-m-d", strtotime($value->created))); ?></td>
-												<td class="center">
+												<td><?php echo h($value->address); ?></td>
+												<td><?php ?></td>
+												<td><?php ?></td>
+												<!-- <td class="center">
 													
 													<?php echo $this->Html->link(($value->approve_status == 1) ? '<span class="btn btn-success">Approved</span>' : '<span class="btn btn-danger">Disapproved</span>', ['prefix' => 'admin', 'controller' => 'Users', 'action' => 'approvestatus', $value->id], ['escape' => false]);?>
 
-												</td>
+												</td> -->
 												<td class="center">
 													<?php if($value->status == 4) { ?> 
 														<span class="label-block label">Block</span>    
@@ -128,9 +111,9 @@
 
 												</td>
 												<td class="center">
-													<?php echo $this->Html->link('Edit', ['controller'=>'Users','action'=>'edit',$value->id],['escape'=>false,'class'=>'btn btn-success',]); ?>
+													<!-- <button escape = false class='btn btn-success' id='editUser' value="<?php echo  $value->id?>">Edit</button> -->
 													
-													<?php echo $this->Html->link('View', ['controller'=>'Users','action'=>'detail',$value->id],['escape'=>false,'class'=>'btn btn-primary',]); ?>
+													<!-- <?php echo $this->Html->link('View', ['controller'=>'Users','action'=>'detail',$value->id],['escape'=>false,'class'=>'btn btn-primary',]); ?> -->
 													<?php echo $this->Html->link('Delete', ['controller'=>'Users','action'=>'Delete',$value->id],['escape'=>false,'class'=>'btn btn-danger',]); ?>
 													
 													<?php //echo $this->Html->link('Delete User', ['controller'=>'Users','action'=>'delete',$value->id],['escape'=>false,'class'=>'btn btn-danger btn-xs','title'=>'Delete User','onclick'=>"return confirm('Are you sure you want to delete this user?')"]); ?>

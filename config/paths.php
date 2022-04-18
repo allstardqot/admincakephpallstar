@@ -91,7 +91,7 @@ $siteFoler = dirname(dirname($_SERVER['SCRIPT_NAME']));
 $siteUrl = $pageURL.$siteFoler;
 $siteUrl = str_replace('\\','/',$siteUrl);
 
-define('SITE_URL',$siteUrl);
+define('SITE_URL',$siteUrl.'/');
 
 
 
@@ -134,4 +134,17 @@ $global_config = [
     'encrypt_decrypt_key'=>'Kc6JLpKDZCKHueaAD6dBtNGvN7JULrXa',
     'secret_iv'=>'gCWVLngUNSSS4sRM',
 ];
+
+$global_config['MODULE_ACCESS']	=	[
+	//'dashboard'			=>	'Dashboard',
+	'Users' =>	'Manager User',
+	'FantasyPoints' =>	'Manager Points',
+    'Team'=>'Manager Teams',
+    'Player'=>'Manager Players',
+    'Country'=>'Manager Country',
+    'Pages'=>'Manager CMS',
+    'Blogs'=>'Manager Blogs',
+    'News'=>'Manager News',
+];
+
 Configure::write('global_config', $global_config);

@@ -27,97 +27,51 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="card card-primary">
-						<?php echo $this->Form->create($user, ['type' => 'file', 'novalidate' => true,'method'=>'post']); ?>
+						<?php echo $this->Form->create($user, ['type' => 'file', 'novalidate' => true,'method'=>'post']); 
+							// pr($user);die;
+						?>
+
 						<div class="card-body">
-							<div class="row">
-								<div class="col-xs-6 col-sm-6 col-md-6">
-									<div class="form-group">
+							<div class=" text-center">
+								<img src="<?php echo SITE_URL ?>/dist/img/noimg.png" class="img-fluid rounded ">
+							</div>
+							<!-- <div class="row"> -->
+								<div class="form-row justify-content-center ">
+									<div class="form-group col-md-3">
 										<?php
 											echo $this->Form->input('first_name', ['maxlength'=>'40','escape'=>false,'class' => 'form-control','label'=>'First Name <span class="required">*</span>', 'placeholder' => __('First Name')]);
 										?>
 									</div>
 								</div>
-								<div class="col-xs-6 col-sm-6 col-md-6">
-									<div class="form-group">
+								<div class="form-row justify-content-center ">
+									<div class="form-group col-md-3">
 										<?php
 											echo $this->Form->input('last_name', ['maxlength'=>'40','escape'=>false,'class' => 'form-control','label'=>'Last Name <span class="required">*</span>','placeholder' => __('Last Name ')]);
 										?>
 									</div>
 								</div>
-								<div class="col-xs-6 col-sm-6 col-md-6">
-									<div class="form-group">
-										<?php
-											echo $this->Form->input('team_name', ['escape'=>false,'class' => 'form-control','label'=>'Team Name <span class="required">*</span>','placeholder' => __('Team Name')]);
-										?>
-									</div>
-								</div>
-								<div class="col-xs-6 col-sm-6 col-md-6">
-									<div class="form-group">
+								<div class="form-row justify-content-center ">
+									<div class="form-group col-md-3">
 										<?php
 											echo $this->Form->input('email', ['escape'=>false,'class' => 'form-control', 'placeholder' => __('E-Mail Addeess'), 'label' => __('Email <span class="required">*</span>',true),'readonly']); 
 										?>
 									</div>
 								</div>
-								<div class="col-xs-6 col-sm-6 col-md-6">
-									<div class="form-group">
+								<div class="form-row justify-content-center  ">
+									<div class="form-group col-md-3">
 										<?php
 											echo $this->Form->input('phone', ['escape'=>false,'class' => 'form-control','label'=>__('Phone Number <span class="required">*</span>'), 'placeholder' => __('Phone Number')]);
 										?>
 									</div>
 								</div>
-								<div class="col-xs-6 col-sm-6 col-md-6">
-									<div class="form-group">
-										<?php
-											echo $this->Form->input('date_of_bith', ['escape'=>false,'class' => 'form-control DOB','label'=>__('Date of Birth'), 'placeholder' => __('Date of Birth',true),'readonly']);
-										?>
-									</div>
-								</div>
-								<div class="col-xs-6 col-sm-6 col-md-6">
-									<div class="form-group">
-										<?php
-											echo $this->Form->input('gender', ['label'=>false,'class' => 'form-control', 'options' => Configure::read('GENDER_LIST'),'empty'=>'Select Gender','label'=>__('Gender',true)]);
-										?>
-									</div>
-								</div>
-								<div class="col-xs-6 col-sm-6 col-md-6">
-									<div class="form-group">
-										<?php
-											echo $this->Form->input('country', ['type' => 'text', 'class' => 'form-control', 'placeholder' => __('Country'), 'label' => __('Country')]);
-										?>
-									</div>
-								</div>
-								<div class="col-xs-6 col-sm-6 col-md-6">
-									<div class="form-group">
-										<?php
-											echo $this->Form->input('state', ['type' => 'text', 'class' => 'form-control', 'placeholder' => __('State'), 'label' => __('State')]);
-										?>
-									</div>
-								</div>
-								<div class="col-xs-6 col-sm-6 col-md-6">
-									<div class="form-group">
-										<?php
-											echo $this->Form->input('address', ['type' => 'text', 'class' => 'form-control', 'placeholder' => __('Address'), 'label' => __('Address')]);
-										?>
-									</div>
-								</div>
-								<div class="col-xs-6 col-sm-6 col-md-6">
-									<div class="form-group">
-										<?php
-											echo $this->Form->input('city', ['type' => 'text', 'class' => 'form-control', 'placeholder' => __('City'), 'label' => __('City')]);
-										?>
-									</div>
-								</div>
-								<div class="col-xs-6 col-sm-6 col-md-6">
-									<div class="form-group">
-										<?php
-											echo $this->Form->input('postal_code', ['type' => 'text', 'class' => 'form-control', 'placeholder' => __('Pin Code'), 'label' => __('Pin Code')]);
-										?>
-									</div>
-								</div>
-							</div>
+								
+								
+							<!-- </div> -->
 						</div>
-						<div class="card-footer">
-							<button type="submit" class="btn btn-primary">Submit</button>
+						<div class="text-center">
+							<div class="card-footer ">
+								<button type="submit" class="btn btn-primary">Submit</button>
+							</div>
 						</div>
 						<?php echo $this->Form->end(); ?>
 					</div>

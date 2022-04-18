@@ -26,10 +26,6 @@ class ComposerStaticInit2d1a70a10272828cbf0d3f223d105d0e
         array (
             'XdgBaseDir\\' => 11,
         ),
-        'T' => 
-        array (
-            'Twilio\\' => 7,
-        ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
@@ -46,10 +42,6 @@ class ComposerStaticInit2d1a70a10272828cbf0d3f223d105d0e
             'Seld\\CliPrompt\\' => 15,
             'Search\\' => 7,
         ),
-        'R' => 
-        array (
-            'RestApi\\' => 8,
-        ),
         'P' => 
         array (
             'Psy\\' => 4,
@@ -57,7 +49,6 @@ class ComposerStaticInit2d1a70a10272828cbf0d3f223d105d0e
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
             'PhpParser\\' => 10,
-            'PhpOffice\\PhpSpreadsheet\\' => 25,
             'Phinx\\' => 6,
         ),
         'M' => 
@@ -68,10 +59,6 @@ class ComposerStaticInit2d1a70a10272828cbf0d3f223d105d0e
         'J' => 
         array (
             'JsonSchema\\' => 11,
-        ),
-        'F' => 
-        array (
-            'Firebase\\JWT\\' => 13,
         ),
         'D' => 
         array (
@@ -111,10 +98,6 @@ class ComposerStaticInit2d1a70a10272828cbf0d3f223d105d0e
         'XdgBaseDir\\' => 
         array (
             0 => __DIR__ . '/..' . '/dnoegel/php-xdg-base-dir/src',
-        ),
-        'Twilio\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/twilio/sdk/Twilio',
         ),
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
@@ -168,10 +151,6 @@ class ComposerStaticInit2d1a70a10272828cbf0d3f223d105d0e
         array (
             0 => __DIR__ . '/..' . '/friendsofcake/search/src',
         ),
-        'RestApi\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/multidots/cakephp-rest-api/src',
-        ),
         'Psy\\' => 
         array (
             0 => __DIR__ . '/..' . '/psy/psysh/src/Psy',
@@ -192,10 +171,6 @@ class ComposerStaticInit2d1a70a10272828cbf0d3f223d105d0e
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
         ),
-        'PhpOffice\\PhpSpreadsheet\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
-        ),
         'Phinx\\' => 
         array (
             0 => __DIR__ . '/..' . '/robmorgan/phinx/src/Phinx',
@@ -211,10 +186,6 @@ class ComposerStaticInit2d1a70a10272828cbf0d3f223d105d0e
         'JsonSchema\\' => 
         array (
             0 => __DIR__ . '/..' . '/justinrainbow/json-schema/src/JsonSchema',
-        ),
-        'Firebase\\JWT\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
         ),
         'DebugKit\\Test\\Fixture\\' => 
         array (
@@ -289,17 +260,6 @@ class ComposerStaticInit2d1a70a10272828cbf0d3f223d105d0e
             array (
                 0 => __DIR__ . '/..' . '/josegonzalez/dotenv/src',
                 1 => __DIR__ . '/..' . '/josegonzalez/dotenv/tests',
-            ),
-        ),
-        'J' => 
-        array (
-            'JakubOnderka\\PhpConsoleHighlighter' => 
-            array (
-                0 => __DIR__ . '/..' . '/jakub-onderka/php-console-highlighter/src',
-            ),
-            'JakubOnderka\\PhpConsoleColor' => 
-            array (
-                0 => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src',
             ),
         ),
         'D' => 
