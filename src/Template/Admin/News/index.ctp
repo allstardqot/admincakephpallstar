@@ -28,8 +28,8 @@
 									<tr>
 										<th>#</th>
 										<th>Title</th>
-										<th>Description</th>
-										<th>Description 1</th>
+										<th>Local Team</th>
+										<th>Visitorteam</th>
 										<th class="last_td">Action</th>
 									</tr>
 								</thead>
@@ -52,16 +52,16 @@
 												?>
 												</td>
 												<td><?php echo !empty($value->title) ? $value->title : ''; ?></td>
-												<td><?php echo !empty($value->description) ? htmlentities(substr($value->description,0,100)) : ''; ?></td>
-                                                <td><?php echo !empty($value->description2) ? htmlentities(substr($value->description2,0,100)) : ''; ?></td>
+												<td><?php echo !empty($value->localteam) ? htmlentities(substr($value->localteam,0,100)) : ''; ?></td>
+                                                <td><?php echo !empty($value->visitorteam) ? htmlentities(substr($value->visitorteam,0,100)) : ''; ?></td>
 												<!-- <td>
 													<?php
 														echo $this->Html->link(($value->status == 1) ? '<span class="btn btn-success">Active</span>' : '<span class="btn btn-danger">Inactive</span>', ['prefix' => 'admin', 'controller' => 'Contents', 'action' => 'status', $value->id], ['escape' => false]);
 													?>
 												</td> -->
 												<td class="last_td">
-													<?php echo $this->Html->link('Edit', ['controller'=>'faq','action'=>'edit',$value->id],['escape'=>false,'class'=>'btn btn-success',]); ?>
-													<?php echo $this->Html->link('View', ['controller'=>'faq','action'=>'view',$value->id],['escape'=>false,'class'=>'btn btn-info',]); ?>
+													<?php echo $this->Html->link('Edit', ['action'=>'edit',$value->id],['escape'=>false,'class'=>'btn btn-success',]); ?>
+													<?php echo $this->Html->link('View', ['action'=>'view',$value->id],['escape'=>false,'class'=>'btn btn-info',]); ?>
 												</td>
 											</tr>
 										<?php $start++;

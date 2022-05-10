@@ -8,12 +8,12 @@
 		<div class="container-fluid">
 			<div class="row mb-2">
 				<div class="col-sm-6">
-					<h1>Add Email Template</h1>
+					<h1>Add FAQ </h1>
 				</div>
 				<div class="col-sm-6">
 					<ol class="breadcrumb float-sm-right">
 						<li class="breadcrumb-item"><a href="<?=SITE_URL?>admin/">Home</a></li>
-						<li class="breadcrumb-item active">Add Email Template</li>
+						<li class="breadcrumb-item active">Add FAQ </li>
 					</ol>
 				</div>
 			</div>
@@ -36,15 +36,11 @@
 											echo $this->Form->input('title',['escape'=>false,'class' => 'form-control','label'=>'Title <span class="required">*</span>', 'placeholder' => __('Title')]);
 										?>
 									</div>
-									<div class="form-group">
-										<?php
-											echo $this->Form->input('head_line',['escape'=>false,'class' => 'form-control','label'=>'Head Line <span class="required">*</span>', 'placeholder' => __('Head Line')]);
-										?>
-									</div>
+									
 									<div class="form-group">
 										<label>Content <span class="required">*</span></label>
 										<?php
-											echo $this->Form->input('content',['type'=>'textarea','class'=>'form-control','label'=>false,'required'=>true]);
+											echo $this->Form->input('description',['type'=>'textarea','class'=>'form-control','label'=>false,'required'=>true]);
 										?>
 									</div>
 								</div>

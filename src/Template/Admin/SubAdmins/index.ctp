@@ -109,7 +109,7 @@
 													<?php 
 													//echo $this->Html->link('Edit', ['controller'=>'subAdmins','action'=>'edit',$value->id],['escape'=>false,'id'=>'editButton','class'=>'btn btn-success',]); ?>
 													<button class = 'btn btn-success editButton' id='editButton' value=<?= $value->id;?> >Edit</button>
-													<?php echo $this->Html->link('Delete User', ['controller'=>'subAdmins','action'=>'delete',$value->id],['escape'=>false,'class'=>'btn btn-danger btn-xs','title'=>'Delete Subadmin','onclick'=>"return confirm('Are you sure you want to delete sub admin user?')"]); ?>
+													<?php echo $this->Html->link('Delete ', ['controller'=>'subAdmins','action'=>'delete',$value->id],['escape'=>false,'class'=>'btn btn-danger btn-xs','title'=>'Delete Subadmin','onclick'=>"return confirm('Are you sure you want to delete admin ?')"]); ?>
 												</td>
 											</tr>
 											<?php $start++;

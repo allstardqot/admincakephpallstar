@@ -604,11 +604,11 @@ div.code-toolbar > .toolbar {
 	margin-bottom: 3rem;
 }
 
-.tab-pane {
+/* .tab-pane {
 	max-height: 700px;
 	overflow-y: auto;
 	overflow-x: hidden;
-}
+} */
 
 	.tab-pane pre {
 		margin: 0;

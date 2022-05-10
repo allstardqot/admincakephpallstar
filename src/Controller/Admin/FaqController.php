@@ -33,18 +33,21 @@ class FaqController extends AppController {
 	
 	public function add() {
 		$this->set('title_for_layout', __('Add Faq'));
-		$content	=	$this->Contents->newEntity();
+		$Faqs = TableRegistry::get('faqs');
+		$content	=	$Faqs->newEntity();
 		if($this->request->is(['patch', 'post', 'put'])) {
-			$content	=	$this->Contents->patchEntity($content, $this->request->getData(), ['validate' => 'Default']);
-			if(!$content->errors()) {
-				$content->status	=	1;
-				$content->content_type	=	2;
-				if($this->Contents->save($content)) {
-					$this->Flash->success(__('Faq Content has been added successfully.'));
-					return $this->redirect(['action' => 'index']);
-				}
-			} else {
-				$this->Flash->error(__('Please correct errors listed as below'));
+			if(!empty($this->request->getData('title')) && !empty($this->request->getData('description'))  ){
+				$content	=	$Faqs->patchEntity($content, $this->request->getData(), ['validate' => 'Default']);
+				if(!$content->errors()) {
+					$content->status	=	1;
+					if($Faqs->save($content)) {
+						$this->Flash->success(__('Faq Content has been added successfully.'));
+						return $this->redirect(['action' => 'index']);
+					}
+				} 
+			}
+			else {
+				$this->Flash->error(__('Please field All inputs!'));
 			}
 		}
 		$this->set(compact('content'));

@@ -50,23 +50,19 @@ class NewsController extends AppController {
 	}
 	
 	public function edit($id= null) {
-		$Faqs = TableRegistry::get('faqs');
+		$Faqs = TableRegistry::get('News');
 		$this->set('title_for_layout', __('Edit Faq Faq'));
 		$faq	=	$Faqs->get($id);
 		if($this->request->is(['patch', 'post', 'put'])) {
 			//pr($Faq);pr($this->request->getData());die;
 			$faq	=	$Faqs->patchEntity($faq, $this->request->getData(), ['validate' => 'Default']);
 			if(!$faq->errors()) {
-				$title = trim($faq->title);
-				if($title != ''){
-					$faq->status	=	1;
-					if($Faqs->save($faq)) {
-						$this->Flash->success(__('Content has been updated successfully.'));
-						return $this->redirect(['action' => 'index']);
-					}
-				}else{
-					$this->Flash->error(__('Title not be blank.'));
+			
+				if($Faqs->save($faq)) {
+					$this->Flash->success(__('News has been updated successfully.'));
+					return $this->redirect(['action' => 'index']);
 				}
+				
 			} else {
 				$this->Flash->error(__('Please correct errors listed as below'));
 			}
@@ -96,7 +92,7 @@ class NewsController extends AppController {
 	
 	public function view($id = null) {
 		$this->set('title_for_layout', __('View Content'));
-		$Faq = TableRegistry::get('faqs');
+		$Faq = TableRegistry::get('News');
 		$result	=	$Faq->get($id);
 		$this->set(compact('result'));
 	}

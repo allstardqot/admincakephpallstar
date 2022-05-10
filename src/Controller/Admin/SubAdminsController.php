@@ -30,7 +30,7 @@ class SubAdminsController extends AppController {
 	}
 	
 	public function index() {
-		$this->set('title_for_layout', __('Sub Admin List'));
+		$this->set('title_for_layout', __(' Admin List'));
 		$role_id=	Configure::read('ROLES.User');
 		$limit	=	Configure::read('ADMIN_PAGE_LIMIT');
 		$this->loadModel('Users');
@@ -40,13 +40,15 @@ class SubAdminsController extends AppController {
 		$reqData=$this->request->query;
 		
 		$condition='';
+		// pr($reqData);die;
 		if(!empty($reqData)){
 			 //$condition=['OR'=>[['full_name'=>$reqData['full_name']],['email'=>$reqData['email']],['phone'=>$reqData['phone']],['created'=>$reqData['created']],['modified'=>$reqData['modified']]]];
 			 if(!empty($reqData['user_name'])){
-				 $condition=['user_name' => $reqData['user_name']];
+				 $condition=['first_name' => $reqData['user_name']];
 			 }
+			//  pr($condition);die;
 		}
-		if ( $this->request->is('post') && $this->request->getData('action') == 'addsubadmin'  ) { 
+		if ($this->request->getData('action') == 'addsubadmin'  ) { 
 			$adminUser	=	$this->Users->newEntity();
 			// pr($this->request->getData());die;
 			$this->Users->patchEntity($adminUser, $this->request->getData());
@@ -130,7 +132,7 @@ class SubAdminsController extends AppController {
 		$status	=	($user->status == 0) ? 1 : 0;
 		$user->status = $status;
 		if($this->Users->save($user)) {
-			$this->Flash->success(__('Sub admin status has been changed.'));
+			$this->Flash->success(__('Admin status has been changed.'));
 			return $this->redirect($this->referer());
 		}
 		$this->Flash->error(__('Sab admin status could not be change, please try again.'));
@@ -155,14 +157,14 @@ class SubAdminsController extends AppController {
 		if (isset($id) && !empty($id)) {
 			$entity	=	$this->Users->get($id);
 			if($this->Users->delete($entity)) {
-				$this->Flash->success(__('Sub admin has been successfully deleted .'));
+				$this->Flash->success(__(' Admin has been successfully deleted .'));
 				return $this->redirect(['action' => 'index']);
 			} else {
-				$this->Flash->error(__('Unable to delete sub admin, please try again.'));
+				$this->Flash->error(__('Unable to delete  Admin, please try again.'));
 				return $this->redirect(['action' => 'index']);
 			}
 		} else {
-			$this->Flash->error(__('Unable to delete sub admin, please try again.'));
+			$this->Flash->error(__('Unable to delete Admin, please try again.'));
 			return $this->redirect(['action' => 'index']);
 		}
 	}

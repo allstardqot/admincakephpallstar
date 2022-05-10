@@ -86,17 +86,17 @@
 					<?php echo $this->Html->link('<i class="fa fa-user"></i> <p>Manage Teams</p>',['controller'=>'Team','action'=>'index'],['class'=>'nav-link '.(($cont == 'Team' && $actn=='index') ? 'active' : ''),'escape'=>false]); ?>
 				</li>
 
-				<!-- <li class="nav-item">
+				 <li class="nav-item">
 					<?php echo $this->Html->link('<i class="fa fa-user"></i> <p>Manage Players</p>',['controller'=>'Player','action'=>'index'],['class'=>'nav-link '.(($cont == 'Player' && $actn=='index') ? 'active' : ''),'escape'=>false]); ?>
 				</li>
-
+<!--
 				<li class="nav-item">
 					<?php echo $this->Html->link('<i class="fa fa-flag"></i> <p>Manage Country</p>',['controller'=>'Country','action'=>'index'],['class'=>'nav-link '.(($cont == 'Country' && $actn=='index') ? 'active' : ''),'escape'=>false]); ?>
 				</li> -->
 
-				<!-- <li class="nav-item">
+				<li class="nav-item">
 					<?php echo $this->Html->link('<i class="fa fa-calendar "></i> <p>Manage Week</p>',['controller'=>'Week','action'=>'index'],['class'=>'nav-link '.(($cont == 'Week' && $actn=='index') ? 'active' : ''),'escape'=>false]); ?>
-				</li> -->
+				</li>
 
 
 				<!-- <li class="nav-item">
@@ -107,9 +107,9 @@
 					<?php echo $this->Html->link('<i class="fa fa-file"></i> <p>Manage Blogs</p>',['controller'=>'Blogs','action'=>'index'],['class'=>'nav-link '.(($cont == 'Blogs' && $actn=='index') ? 'active' : ''),'escape'=>false]); ?>
 				</li>
 
-				<!-- <li class="nav-item">
+				 <li class="nav-item">
 					<?php echo $this->Html->link('<i class="fa fa-file"></i> <p>Manage News</p>',['controller'=>'News','action'=>'index'],['class'=>'nav-link '.(($cont == 'News' && $actn=='index') ? 'active' : ''),'escape'=>false]); ?>
-				</li> -->
+				</li> 
 
 				
 

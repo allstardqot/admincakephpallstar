@@ -7,7 +7,7 @@
 		<div class="container-fluid">
 			<div class="row mb-2">
 				<div class="col-sm-6">
-					<h1> Admins List</h1>
+					<h1> Week List</h1>
 				</div>
 				<div class="col-sm-6">
 					<ol class="breadcrumb float-sm-right">
@@ -42,10 +42,10 @@
 								<thead>
 									<tr>
 										<!-- <th><input type="checkbox" class="selectall" /></th> -->
-										<th>#</th>
+										<th>Game Week</th>
 										<th><?php echo $this->Paginator->sort('Week.starting_at', __('Start Date')) ?></th>
 										<th><?php echo $this->Paginator->sort('Week.ending_at', __('End Date')) ?></th>
-										<th><?php echo __('Status');?></th>
+										<!-- <th><?php echo __('Status');?></th> -->
 										<th><?php echo __('Action');?></th>
 									</tr>
 								</thead>
@@ -71,7 +71,7 @@
 												</td>
 												<td><?php echo h(date("M, d Y", strtotime($value->starting_at))); ?></td>
 												<td><?php echo h(date("M, d Y", strtotime($value->ending_at))); ?></td>
-												<td class="center">
+												<!-- <td class="center">
 													<?php
 														if($value->status == 4) { ?> 
 														<span class="label-block label">Block</span>    
@@ -80,7 +80,7 @@
 															echo $this->Html->link(($value->status == 1) ? '<span class="btn btn-success">Active</span>' : '<span class="btn btn-danger">Inactive</span>', ['prefix' => 'admin', 'controller' => 'subAdmins', 'action' => 'status', $value->id], ['escape' => false]);
 														}
 													?>
-												</td>
+												</td> -->
 												<td class="center">												
 													<?php 
 													//echo $this->Html->link('Edit', ['controller'=>'subAdmins','action'=>'edit',$value->id],['escape'=>false,'id'=>'editButton','class'=>'btn btn-success',]); ?>

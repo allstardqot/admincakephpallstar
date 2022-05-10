@@ -16,6 +16,7 @@
 
 echo $this->fetch('content');
 ?>
+<link rel="stylesheet" href="<?= SITE_URL.'webroot/css/admin/bootstrap.min.css' ?>">
 <script src="<?= SITE_URL; ?>/webroot/js/admin/validation.js"></script>
 <script>
     $(document).ready(function () {

@@ -253,20 +253,12 @@ class UsersController extends AppController {
 		$condition='';
 		if(!empty($reqData)){
 			 //$condition=['OR'=>[['full_name'=>$reqData['full_name']],['email'=>$reqData['email']],['phone'=>$reqData['phone']],['created'=>$reqData['created']],['modified'=>$reqData['modified']]]];
-			 if(!empty($reqData['full_name'])){
-				 $condition=['full_name'=>$reqData['full_name']];
+			 if(!empty($reqData['user_name'])){
+				 $condition=['user_name'=>$reqData['user_name']];
 			 }
-			 if(!empty($reqData['email'])){
-				$condition=['email'=>$reqData['email']];
-			}
-			if(!empty($reqData['phone'])){
-				$condition=['phone'=>$reqData['phone']];
-			}
-			if(!empty($reqData['created'])){
-				$condition=['created'=>$reqData['created']];
-			}
+			 
 		}
-	
+	// pr($condition);die;
         $query = $this->Users->find()->where([$condition,'Users.role_id' => $role_id,'Users.delete_status !='=>1]);
 
 		if(isset($this->request->query) && $this->request->query('unverified') != '') {

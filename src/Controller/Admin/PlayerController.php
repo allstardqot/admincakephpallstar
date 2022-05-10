@@ -57,7 +57,7 @@ class PlayerController  extends AppController {
 			$Player->patchEntity($players, $this->request->getData());
 			$players->birthdate = date("Y-m-d", strtotime($this->request->getData('birthdate')));
 			if($Player->save($players)) {
-				$this->Flash->success(__('Team has been updated successfully.'));
+				$this->Flash->success(__('Player has been updated successfully.'));
 				return $this->redirect(['action' => 'index']);
 			}else{
 				$this->Flash->error(__('Please correct errors listed as below'));

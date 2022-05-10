@@ -102,10 +102,19 @@
 					</div>
 				</div>
 
-                <div class="col-xs-6 col-sm-6 col-md-12">
+                <div class="col-xs-6 col-sm-6 col-md-6">
 					<div class="form-group">
 						<?php
 							echo $this->Form->input('nationality', ['maxlength'=>'50','escape'=>false,'class' => 'form-control', 'id'=>'nationality','placeholder' => __('Nationality'), 'label' => __('Nationality *')]); 
+						?>
+						<!-- <p id="shortNameCheck" style="color: red;">Plz Enter Birth Place</p> -->
+					</div>
+				</div>
+
+				<div class="col-xs-6 col-sm-6 col-md-6">
+					<div class="form-group">
+						<?php
+							echo $this->Form->input('sell_price', ['maxlength'=>'50','escape'=>false,'class' => 'form-control', 'id'=>'sell_price','placeholder' => __('Selling Price'), 'label' => __('Selling Price *')]); 
 						?>
 						<!-- <p id="shortNameCheck" style="color: red;">Plz Enter Birth Place</p> -->
 					</div>

@@ -320,3 +320,8 @@ h1{
 .dropdown-menu>li>a{
   cursor:pointer;
   }
+.tab-pane {
+	max-height: auto;
+	overflow-y: auto;
+	overflow-x: auto;
+}

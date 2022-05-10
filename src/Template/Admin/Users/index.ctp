@@ -29,7 +29,7 @@
 								<div class="row ">
 									<div class="form-group col-sm-6 col-md-3">
 									<?php 
-										echo $this->Form->input('full_name',['class' => 'form-control', 'label' => false, 'placeholder' => __('Enter name')]);
+										echo $this->Form->input('user_name',['class' => 'form-control', 'label' => false, 'placeholder' => __('Enter name')]);
 									?>
 									</div>
 									<div class="form-group col-sm-6 col-md-3 ">
@@ -67,7 +67,7 @@
 										<th><?php echo $this->Paginator->sort('Users.color', __('Color')) ?></th>
 										<th><?php echo $this->Paginator->sort('Users.members', __('
 Members')) ?></th>
-										<th><?php echo __('Active Status');?></th>
+										<!-- <th><?php echo __('Active Status');?></th> -->
 										<th><?php echo __('Action');?></th>
 									</tr>
 								</thead>
@@ -100,16 +100,16 @@ Members')) ?></th>
 												<td><?php ?></td>
 												<!-- <td class="center">
 													
-													<?php echo $this->Html->link(($value->approve_status == 1) ? '<span class="btn btn-success">Approved</span>' : '<span class="btn btn-danger">Disapproved</span>', ['prefix' => 'admin', 'controller' => 'Users', 'action' => 'approvestatus', $value->id], ['escape' => false]);?>
+													<?php //echo $this->Html->link(($value->approve_status == 1) ? '<span class="btn btn-success">Approved</span>' : '<span class="btn btn-danger">Disapproved</span>', ['prefix' => 'admin', 'controller' => 'Users', 'action' => 'approvestatus', $value->id], ['escape' => false]);?>
 
 												</td> -->
-												<td class="center">
+												<!-- <td class="center">
 													<?php if($value->status == 4) { ?> 
 														<span class="label-block label">Block</span>    
 													<?php } else { ?>
 													<?php echo $this->Html->link(($value->status == 1) ? '<span class="btn btn-success">Active</span>' : '<span class="btn btn-danger">Inactive</span>', ['prefix' => 'admin', 'controller' => 'Users', 'action' => 'status', $value->id], ['escape' => false]); } ?>
 
-												</td>
+												</td> -->
 												<td class="center">
 													<!-- <button escape = false class='btn btn-success' id='editUser' value="<?php echo  $value->id?>">Edit</button> -->
 													

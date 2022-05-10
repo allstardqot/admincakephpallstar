@@ -6,12 +6,12 @@
 		<div class="container-fluid">
 			<div class="row mb-2">
 				<div class="col-sm-6">
-					<h1>Teams Manager</h1>
+					<h1>Players Manager</h1>
 				</div>
 				<div class="col-sm-6">
 					<ol class="breadcrumb float-sm-right">
 						<li class="breadcrumb-item"><a href="<?php echo SITE_URL; ?>admin/">Home</a></li>
-						<li class="breadcrumb-item active">Teams Manager</li>
+						<li class="breadcrumb-item active">Players Manager</li>
 					</ol>
 				</div>
 			</div>
@@ -33,6 +33,7 @@
                                         <th>DOB</th>
                                         <th>Cost</th>
                                         <th>Position</th>
+                                        <th>Selling Price</th>
                                         <th>Others</th>
                                         <th>Active Status</th>
 										<th class="last_td">Action</th>
@@ -61,8 +62,10 @@
                                                 <td><img src="<?php echo !empty($value->image_path) ? $value->image_path : '' ?>" class="team-logo" alt=""></td>
 												<td><?php echo !empty($value->display_name) ? $value->display_name : ''; ?></td>
 												<td><?php echo !empty($value->birthdate) ? date("M, d Y", strtotime($value->birthdate)) : '' ?></td>
+												
                                                 <td></td>
                                                 <td><?php echo !empty($value->position_id) ? $value->position->name: '' ?></td>
+												<td><?php echo $value->sell_price ?></td>
                                                 <td></td>
                                                 <td>Yes</td>
                                                 

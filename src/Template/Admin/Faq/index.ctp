@@ -22,6 +22,12 @@
 			<div class="col-md-12">
 				<div class="card">
 					<div class="card-body">
+					<div class="row">
+					<div class="col-md-12 text-right">
+					<?php echo $this->Html->link('<i class="fa fa-plus "></i>', ['action'=>'add'],['escape'=>false,'class'=>'btn btn-success',]); ?>
+						</div>
+					</div>
+						
 						<div class="table-responsive">
 							<table id="example1" class="table table-bordered table-striped">
 								<thead>

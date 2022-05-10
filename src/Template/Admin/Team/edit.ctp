@@ -7,7 +7,7 @@
     <div class="modal-content">
         <div class="modal-header">
             <h4 class="modal-title">Edit Team Details</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
         </div>
         <div class="modal-body">
 			<?php echo $this->Form->create($team, ['type' => 'file','id'=>'editTeamForm']); 
@@ -74,7 +74,7 @@
 		</div>
 		<div class="card-footer">
 			<button id="editteamBtn" class="btn btn-primary ">Submit</button>
-			<?php echo($this->Html->link('<i class="fa fa-arrow-left"></i> Back', array('action' => 'index'), array('escape' => false, 'class' => 'btn btn-primary '))); ?>
+			<?php echo($this->Html->link('<i class="fa fa-arrow-left"></i> Cancel', array('action' => 'index'), array('escape' => false, 'class' => 'btn btn-success '))); ?>
 		</div>
 		<?php echo $this->Form->end(); ?>
 		</div>

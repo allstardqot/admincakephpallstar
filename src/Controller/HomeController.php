@@ -41,7 +41,7 @@ class  HomeController extends AppController {
 
 	public function index() {
 
-
+		return $this->redirect(SITE_URL."admin");
 		echo '<div style="    text-transform: uppercase;
 			text-align: center;
 			margin-top: 75px;
