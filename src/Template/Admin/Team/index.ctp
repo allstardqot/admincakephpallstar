@@ -43,7 +43,8 @@
 									$start = 1;
 									$pl=Configure::read('ADMIN_PAGE_LIMIT');
 									if(!empty($result)) {
-										foreach ($result as $key => $value) { ?>
+										foreach ($result as $key => $value) {
+											?>
 											<tr>
 												<td>
 												<?php 
@@ -61,7 +62,7 @@
                                                 <td>SeasonId:<?php echo !empty($value->current_season_id) ? $value->current_season_id : ''; ?></td>
                                                 <td><?php ?></td>
                                                 <td><?php echo $value->founded ?></td>
-                                                <td><?php echo $value->country->name ?></td>
+                                                <td><?php echo !empty($value->country->name) ? $value->country->name: '' ?></td>
                                                 
 												<!-- <td>
 													<?php

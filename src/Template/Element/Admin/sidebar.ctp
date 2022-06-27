@@ -6,6 +6,11 @@
 	$subadmin_roles  = (!empty($loggedInUser['module_access'])) ? explode(',',$loggedInUser['module_access']) : [];
 	$cont	=	$params['controller'];
 	$actn	=	$params['action'];
+	// if($_SERVER['REMOTE_ADDR'] == '49.204.161.179'){
+		// echo 'Subadmins :- ';pr($subadmin_roles);
+		// echo 'Role ID :- ';pr($role_id);die;
+
+	// }
 ?>
 <script>
 	$(document).ready(function() {
@@ -44,6 +49,7 @@
 						<p> Dashboard </p>
 					</a>
 				</li>
+				<?php if (in_array($role_id,array(1)) ) { ?>
 				<li class="nav-item has-treeview <?php  ?>">
 					<a href="<?= SITE_URL."admin/SubAdmins" ?>" class="nav-link <?php if(($cont=='SubAdmins') && ($actn=='index')) { echo 'active'; } ?>">
 						<i class="nav-icon fa fa-users"></i>
@@ -51,214 +57,105 @@
 					</a>
 					
 				</li>
-
-				<li class="nav-item has-treeview <?php if(($cont=='Users') && ($actn=='index' || $actn=='add' || $actn=='subscriber'|| $actn=='referraldata' )){ echo 'menu-open'; }?>">
+				 <?php } if (in_array($role_id,array(1)) || in_array('Users',$subadmin_roles) ) { ?>
+					<li class="nav-item has-treeview <?php if(($cont=='Users') && ($actn=='index' || $actn=='add' || $actn=='subscriber'|| $actn=='referraldata' )){ echo 'menu-open'; }?>">
 					<a href="<?= SITE_URL."admin/users" ?>" class="nav-link <?php if(($cont=='Users') && ($actn=='index' || $actn=='add' || $actn=='subscriber'|| $actn=='referraldata' )){ echo 'active'; }?>">
 						<i class="nav-icon fa fa-users"></i>
 						<p> Manage Users  </p>
 					</a>
-					<!-- <ul class="nav nav-treeview">
-						<li class="nav-item">
-							<a href="<?=SITE_URL."admin/users"?>" class="nav-link <?php if(($cont=='Users') && ($actn=='index')){ echo 'active'; }?>">
-								<i class="fa fa-circle-o nav-icon"></i> 
-								<p>List</p>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a href="<?=SITE_URL."admin/users/add"?>" class="nav-link <?php if(($cont=='Users') && ($actn=='add')){ echo 'active'; }?>">
-								<i class="fa fa-circle-o nav-icon"></i> 
-								<p>Add</p>
-							</a>
-						</li>
-						
-					</ul> -->
 				</li>
 
+				<?php } 
+				if (in_array($role_id,array(1)) || in_array('FantasyPoints',$subadmin_roles) ) {
+					echo '<li class="nav-item">';
+					echo $this->Html->link('<i class="fa fa-star"></i> <p>Manage Points</p>',['controller'=>'FantasyPoints','action'=>'index'],['class'=>'nav-link '.(($cont == 'FantasyPoints' && $actn=='index') ? 'active' : ''),'escape'=>false]); 
+					echo '</li>';
+				}
+				?>
+
 				
-
-				<li class="nav-item">
-					<?php echo $this->Html->link('<i class="fa fa-star"></i> <p>Manage Points</p>',['controller'=>'FantasyPoints','action'=>'index'],['class'=>'nav-link '.(($cont == 'FantasyPoints' && $actn=='index') ? 'active' : ''),'escape'=>false]); ?>
-				</li>
-
-				
-
+				<?php  if (in_array($role_id,array(1)) || in_array('Team',$subadmin_roles) ) { ?>	
 				<li class="nav-item">
 					<?php echo $this->Html->link('<i class="fa fa-user"></i> <p>Manage Teams</p>',['controller'=>'Team','action'=>'index'],['class'=>'nav-link '.(($cont == 'Team' && $actn=='index') ? 'active' : ''),'escape'=>false]); ?>
 				</li>
+				<?php } 
+					if (in_array($role_id,array(1)) || in_array('Player',$subadmin_roles) ) {
+						echo '<li class="nav-item">';
+						 echo $this->Html->link('<i class="fa fa-user"></i> <p>Manage Players</p>',['controller'=>'Player','action'=>'index'],['class'=>'nav-link '.(($cont == 'Player' && $actn=='index') ? 'active' : ''),'escape'=>false]); 
+						echo '</li>';
+					}
+					// if (in_array($role_id,array(1)) || in_array('Country',$subadmin_roles) ) {
+					// 	echo '<li class="nav-item">';
+					//   echo $this->Html->link('<i class="fa fa-flag"></i> <p>Manage Country</p>',['controller'=>'Country','action'=>'index'],['class'=>'nav-link '.(($cont == 'Country' && $actn=='index') ? 'active' : ''),'escape'=>false]); 
+					// echo '</li>';}
+					if (in_array($role_id,array(1)) || in_array('AdminManager',$subadmin_roles) ) {
+					echo '<li class="nav-item">';
+					 echo $this->Html->link('<i class="fa fa-calendar "></i> <p>Manage Week</p>',['controller'=>'Week','action'=>'index'],['class'=>'nav-link '.(($cont == 'Week' && $actn=='index') ? 'active' : ''),'escape'=>false]); 
+					echo '</li>';}
 
-				 <li class="nav-item">
-					<?php echo $this->Html->link('<i class="fa fa-user"></i> <p>Manage Players</p>',['controller'=>'Player','action'=>'index'],['class'=>'nav-link '.(($cont == 'Player' && $actn=='index') ? 'active' : ''),'escape'=>false]); ?>
-				</li>
-<!--
-				<li class="nav-item">
-					<?php echo $this->Html->link('<i class="fa fa-flag"></i> <p>Manage Country</p>',['controller'=>'Country','action'=>'index'],['class'=>'nav-link '.(($cont == 'Country' && $actn=='index') ? 'active' : ''),'escape'=>false]); ?>
-				</li> -->
 
-				<li class="nav-item">
-					<?php echo $this->Html->link('<i class="fa fa-calendar "></i> <p>Manage Week</p>',['controller'=>'Week','action'=>'index'],['class'=>'nav-link '.(($cont == 'Week' && $actn=='index') ? 'active' : ''),'escape'=>false]); ?>
-				</li>
+					if (in_array($role_id,array(1)) || in_array('Pages',$subadmin_roles) ) {
+						echo '<li class="nav-item">';
+					 echo $this->Html->link('<i class="fa fa-list"></i> <p>Manage CMS</p>',['controller'=>'Pages','action'=>'index'],['class'=>'nav-link '.(($cont == 'Pages' && $actn=='index') ? 'active' : ''),'escape'=>false]); 
+					echo '</li>';} 
+
+					// if (in_array($role_id,array(1)) || in_array('Blogs',$subadmin_roles) ) {
+					// 	echo '<li class="nav-item">';
+					// echo $this->Html->link('<i class="fa fa-file"></i> <p>Manage Blogs</p>',['controller'=>'Blogs','action'=>'index'],['class'=>'nav-link '.(($cont == 'Blogs' && $actn=='index') ? 'active' : ''),'escape'=>false]); 
+					// echo '</li>';} 
+
+					if (in_array($role_id,array(1)) || in_array('Transaction',$subadmin_roles) ) {
+						echo '<li class="nav-item">';
+					echo $this->Html->link('<i class="fa fa-file"></i> <p>User Transactions</p>',['controller'=>'Users','action'=>'usertransection'],['class'=>'nav-link '.(($cont == 'Users' && $actn=='usertransection') ? 'active' : ''),'escape'=>false]); 
+					echo '</li>';} 
 
 
-				<!-- <li class="nav-item">
-					<?php echo $this->Html->link('<i class="fa fa-list"></i> <p>Manage CMS</p>',['controller'=>'Pages','action'=>'index'],['class'=>'nav-link '.(($cont == 'Pages' && $actn=='index') ? 'active' : ''),'escape'=>false]); ?>
-				</li> -->
+					if (in_array($role_id,array(1)) || in_array('News',$subadmin_roles) ) {
+						echo '<li class="nav-item">';
+					 		echo $this->Html->link('<i class="fa fa-file"></i> <p>Manage News</p>',['controller'=>'News','action'=>'index'],['class'=>'nav-link '.(($cont == 'News' && $actn=='index') ? 'active' : ''),'escape'=>false]); 
+						echo '</li>';
+					} 
 
-				<li class="nav-item">
-					<?php echo $this->Html->link('<i class="fa fa-file"></i> <p>Manage Blogs</p>',['controller'=>'Blogs','action'=>'index'],['class'=>'nav-link '.(($cont == 'Blogs' && $actn=='index') ? 'active' : ''),'escape'=>false]); ?>
-				</li>
+					if (in_array($role_id,array(1)) || in_array('FAQ',$subadmin_roles) ) {
+						echo '<li class="nav-item">';
+					 		echo $this->Html->link('<i class="fa fa-question-circle nav-icon"></i> <p>Faq Manager</p>',['controller'=>'faq','action'=>'index'],['class'=>'nav-link '.(($cont == 'Faq' && $actn=='index') ? 'active' : ''),'escape'=>false]); 
+						echo '</li>';
+					} 
 
-				 <li class="nav-item">
-					<?php echo $this->Html->link('<i class="fa fa-file"></i> <p>Manage News</p>',['controller'=>'News','action'=>'index'],['class'=>'nav-link '.(($cont == 'News' && $actn=='index') ? 'active' : ''),'escape'=>false]); ?>
-				</li> 
-
+					if (in_array($role_id,array(1))  ) {
+						echo '<li class="nav-item">';
+							echo $this->Html->link('<i class="fa fa-cogs nav-icon"></i> <p>Settings</p>',['controller'=>'Settings','action'=>'index'],['class'=>'nav-link '.(($cont == 'Settings' && $actn=='index') ? 'active' : ''),'escape'=>false]); 
+						echo '</li>';
+					}
 				
-
-				<!-- <li class="nav-item has-treeview <?php if(($cont=='Jobs') && (($actn=='index') || ($actn=='add'))){ echo 'menu-open'; }?>">
-					<a href="javascript:void(0)" class="nav-link <?php if(($cont=='Jobs') && (($actn=='index') || ($actn=='add'))){ echo 'active'; }?>">
-						<i class="nav-icon fa fa-list-ul"></i>
-						<p> Jobs Manager <i class="right fa fa-angle-left"></i> </p>
-					</a>
-					<ul class="nav nav-treeview">
-						<li class="nav-item">
-							<a href="<?=SITE_URL."admin/jobs"?>" class="nav-link <?php if(($cont=='Jobs') && ($actn=='index')){ echo 'active'; }?>">
-								<i class="fa fa-circle-o nav-icon"></i> 
-								<p>List</p>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a href="<?=SITE_URL."admin/jobs/add"?>" class="nav-link <?php if(($cont=='Jobs') && ($actn=='add')){ echo 'active'; }?>">
-								<i class="fa fa-circle-o nav-icon"></i> 
-								<p>Add</p>
-							</a>
-						</li>
-					</ul>
-				</li> -->
-
-				
-				
-
-				<!-- <li class="nav-item has-treeview <?php if(($cont=='Drafts') && (in_array($actn,['index','addnew','edit','schedule'])) ){ echo 'menu-open'; }?>">
-					<a href="javascript:void(0)" class="nav-link <?php if(($cont=='Drafts') && (in_array($actn,['index','addnew','edit','schedule'])) ){ echo 'active'; }?>">
-						<i class="nav-icon fa fa-database"></i>
-						<p> Fantasy Modules <i class="right fa fa-angle-left"></i> </p>
-					</a>
-					<ul class="nav nav-treeview">
-
-						<li class="nav-item">
-							<a href="<?=SITE_URL."admin/drafts"?>" class="nav-link <?php if(($cont=='Drafts') && ($actn=='index') ) { echo 'active'; }?>">
-								<i class="fa fa-circle-o nav-icon"></i> 
-								<p>Draft List</p>
-							</a>
-						</li>
-
-						<li class="nav-item">
-							<a href="<?=SITE_URL."admin/drafts/addnew"?>" class="nav-link <?php if(($cont=='Drafts') && ($actn=='addnew') ) { echo 'active'; }?>">
-								<i class="fa fa-circle-o nav-icon"></i> 
-								<p>Add Draft</p>
-							</a>
-						</li>
+					if (in_array($role_id,array(1)) ) {
+						echo '<li class="nav-item">';
+							echo $this->Html->link('<i class="fa fa-user nav-icon"></i> <p>Manage Profile</p>',['controller'=>'users','action'=>'profile'],['class'=>'nav-link '.(($cont == 'Users' && $actn=='profile') ? 'active' : ''),'escape'=>false]); 
+						echo '</li>';
+					}
 
 
-						<li class="nav-item">
-							<a href="<?= SITE_URL."admin/drafts/schedule" ?>" class="nav-link <?php if(($cont=='Drafts') && ($actn=='schedule') ) { echo 'active'; }?>">
-								<i class="fa fa-circle-o nav-icon"></i> 
-								<p> Schedule Contest </p>
-							</a>
-						</li>
-
-					</ul>
-				</li> -->
-
+					if (in_array($role_id,array(1)) ) {
+						echo '<li class="nav-item">';
+					    	echo $this->Html->link('<i class="fa fa-lock nav-icon"></i> <p>Change Password</p>',['controller'=>'users','action'=>'changePassword'],['class'=>'nav-link '.(($cont == 'Users' && $actn=='changePassword') ? 'active' : ''),'escape'=>false]); 
+						echo '</li>';
+					}
+					?>
 				
 
 
-				
 
 
-				
-
-
-				<!-- <li class="nav-item has-treeview <?php if(($cont=='PaymentOffers')) { echo 'menu-open'; }?>">
-					<a href="javascript:void(0)" class="nav-link <?php if(($cont=='PaymentOffers')) { echo 'active'; } ?>">
-						<i class="nav-icon fa fa-users"></i>
-						<p>Payment Offers<i class="right fa fa-angle-left"></i> </p>
-					</a>
-					<ul class="nav nav-treeview">
-						<li class="nav-item">
-							<?php echo $this->Html->link('<i class="fa fa-circle-o nav-icon"></i> List',['controller'=>'paymentOffers','action'=>'index'],['class'=>'nav-link '.(($cont == 'PaymentOffers' && $actn=='index') ? 'active' : ''),'escape'=>false]); ?>
-						</li>
-						<li class="nav-item">
-							<?php echo $this->Html->link('<i class="fa fa-circle-o nav-icon"></i> Add',['controller'=>'paymentOffers','action'=>'add'],['class'=>'nav-link '.(($cont == 'PaymentOffers' && $actn=='add') ? 'active' : ''),'escape'=>false]); ?>
-						</li>
-					</ul>
-				</li> -->
-
-				<!-- <li class="nav-item has-treeview <?php if(($cont=='Banners') && (($actn=='index') || ($actn=='add'))){ echo 'menu-open'; }?>">
-					<a href="javascript:void(0)" class="nav-link <?php if(($cont=='Banners') && (($actn=='index') || ($actn=='add'))){ echo 'active'; }?>">
-						<i class="nav-icon fa fa-picture-o"></i>
-						<p> Banner Manager <i class="right fa fa-angle-left"></i> </p>
-					</a>
-					<ul class="nav nav-treeview">
-						<li class="nav-item">
-							<a href="<?=SITE_URL."admin/banners"?>" class="nav-link <?php if(($cont=='Banners') && ($actn=='index')){ echo 'active'; }?>">
-								<i class="fa fa-circle-o nav-icon"></i> 
-								<p>List</p>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a href="<?=SITE_URL."admin/banners/add"?>" class="nav-link <?php if(($cont=='Banners') && ($actn=='add')){ echo 'active'; }?>">
-								<i class="fa fa-circle-o nav-icon"></i> 
-								<p>Add</p>
-							</a>
-						</li>
-					</ul>
-				</li> -->
-				
-				
-				<!-- <li class="nav-item">
-					<?php //echo $this->Html->link('<i class="fa fa-list-ul nav-icon"></i> <p>Withdraw (Pending)</p>',['controller'=>'withdrawRequests','action'=>'index'],['class'=>'nav-link '.(($cont == 'WithdrawRequests' && $actn=='index') ? 'active' : ''),'escape'=>false]); ?>
-				</li>
-
-				<li class="nav-item">
-					<?php //echo $this->Html->link('<i class="fa fa-list-ul nav-icon"></i> <p>Withdraw  (Confirmed)</p>',['controller'=>'withdrawRequests','action'=>'confirmed'],['class'=>'nav-link '.(($cont == 'WithdrawRequests' && $actn=='confirmed') ? 'active' : ''),'escape'=>false]); ?>
-				</li> -->
-
-				<!-- <li class="nav-item has-treeview <?php if(($cont=='Notifications') && (($actn=='sendnew') || ($actn=='received') || ($actn=='price'))){ echo 'menu-open'; }?>">
-					<a href="javascript:void(0)" class="nav-link <?php if(($cont=='Notifications') && (($actn=='sendnew') || ($actn=='received'))){ echo 'active'; }?>">
-						<i class="nav-icon fa fa-bell"></i>
-						<p> Notification Manager <i class="right fa fa-angle-left"></i> </p>
-					</a>
-					<ul class="nav nav-treeview">
-						<li class="nav-item">
-							<a href="<?=SITE_URL."admin/notifications/sendnew"?>" class="nav-link <?php if(($cont=='Notifications') && ($actn=='sendnew')){ echo 'active'; }?>">
-								<i class="fa fa-circle-o nav-icon"></i> 
-								<p>Sent</p>
-							</a>
-						</li>
-						
-					</ul>
-				</li> -->
-				<!-- <li class="nav-item">
+					<!-- <li class="nav-item">
 					<?php echo $this->Html->link('<i class="nav-icon fa fa-users nav-icon"></i> <p>User Detail</p>',['controller'=>'users','action'=>'userdetail'],['class'=>'nav-link '.(($cont == 'Users' && $actn=='userdetail') ? 'active' : ''),'escape'=>false]); ?>
 				</li> -->
 				<!-- <li class="nav-item">
 					<?php echo $this->Html->link('<i class="fa fa-newspaper-o nav-icon"></i> <p>Contents Manager</p>',['controller'=>'contents','action'=>'index'],['class'=>'nav-link '.(($cont == 'Contents' && $actn=='index') ? 'active' : ''),'escape'=>false]); ?>
 				</li> -->
-				<li class="nav-item">
-					<?php echo $this->Html->link('<i class="fa fa-question-circle nav-icon"></i> <p>Faq Manager</p>',['controller'=>'faq','action'=>'index'],['class'=>'nav-link '.(($cont == 'Faq' && $actn=='index') ? 'active' : ''),'escape'=>false]); ?>
-				</li>
-				<li class="nav-item">
-					<?php echo $this->Html->link('<i class="fa fa-cogs nav-icon"></i> <p>Settings</p>',['controller'=>'Settings','action'=>'index'],['class'=>'nav-link '.(($cont == 'Settings' && $actn=='index') ? 'active' : ''),'escape'=>false]); ?>
-				</li>
+
 				<!-- <li class="nav-item">
-					<?php //echo $this->Html->link('<i class="fa fa-envelope-o nav-icon"></i> <p>Email Templates</p>',['controller'=>'emailTemplates','action'=>'index'],['class'=>'nav-link '.(($cont == 'EmailTemplates' && $actn=='index') ? 'active' : ''),'escape'=>false]); ?>
+				<?php //echo $this->Html->link('<i class="fa fa-envelope-o nav-icon"></i> <p>Email Templates</p>',['controller'=>'emailTemplates','action'=>'index'],['class'=>'nav-link '.(($cont == 'EmailTemplates' && $actn=='index') ? 'active' : ''),'escape'=>false]); ?>
 				</li> -->
-				<li class="nav-item">
-					<?php echo $this->Html->link('<i class="fa fa-user nav-icon"></i> <p>Manage Profile</p>',['controller'=>'users','action'=>'profile'],['class'=>'nav-link '.(($cont == 'Users' && $actn=='profile') ? 'active' : ''),'escape'=>false]); ?>
-				</li>
-				<li class="nav-item">
-					<?php echo $this->Html->link('<i class="fa fa-lock nav-icon"></i> <p>Change Password</p>',['controller'=>'users','action'=>'changePassword'],['class'=>'nav-link '.(($cont == 'Users' && $actn=='changePassword') ? 'active' : ''),'escape'=>false]); ?>
-				</li>
 			</ul>
 		</nav>
 	</div>

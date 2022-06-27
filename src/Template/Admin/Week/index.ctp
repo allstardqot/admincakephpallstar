@@ -12,7 +12,7 @@
 				<div class="col-sm-6">
 					<ol class="breadcrumb float-sm-right">
 						<li class="breadcrumb-item"><a href="<?=SITE_URL?>admin/">Home</a></li>
-						<li class="breadcrumb-item active"> Admins List</li>
+						<li class="breadcrumb-item active"> Week List</li>
 					</ol>
 				</div>
 			</div>
@@ -46,7 +46,7 @@
 										<th><?php echo $this->Paginator->sort('Week.starting_at', __('Start Date')) ?></th>
 										<th><?php echo $this->Paginator->sort('Week.ending_at', __('End Date')) ?></th>
 										<!-- <th><?php echo __('Status');?></th> -->
-										<th><?php echo __('Action');?></th>
+										<!-- <th><?php echo __('Action');?></th> -->
 									</tr>
 								</thead>
 								<tbody>
@@ -81,12 +81,12 @@
 														}
 													?>
 												</td> -->
-												<td class="center">												
+												<!-- <td class="center">												 -->
 													<?php 
 													//echo $this->Html->link('Edit', ['controller'=>'subAdmins','action'=>'edit',$value->id],['escape'=>false,'id'=>'editButton','class'=>'btn btn-success',]); ?>
-													<button class = 'btn btn-success editWeekButton' id='editWeek' value=<?= $value->id;?> >Edit</button>
-													<?php echo $this->Html->link('Delete ', ['controller'=>'Week','action'=>'delete',$value->id],['escape'=>false,'class'=>'btn btn-danger btn-xs','title'=>'Delete Subadmin','onclick'=>"return confirm('Are you sure you want to delete sub admin user?')"]); ?>
-												</td>
+													<!-- <button class = 'btn btn-success editWeekButton' id='editWeek' value=<?= $value->id;?> >Edit</button> -->
+													<?php //echo $this->Html->link('Delete ', ['controller'=>'Week','action'=>'delete',$value->id],['escape'=>false,'class'=>'btn btn-danger btn-xs','title'=>'Delete Subadmin','onclick'=>"return confirm('Are you sure you want to delete sub admin user?')"]); ?>
+												<!-- </td> -->
 											</tr>
 											<?php $start++;
 										}
@@ -117,7 +117,7 @@
 			</div>
 			<div class="modal-body">
 				<?php  
-					echo $this->Form->create(null,['class' => 'form-inline search_form' , 'id'=> 'weekform']); 
+					echo $this->Form->create(null,['class' => 'form-inline search_form', 'id'=> 'weekform']); 
 					echo $this->Form->hidden('action',['value' => 'addWeek']); 
 				?>
 				
@@ -125,18 +125,20 @@
                     <div class="row">
                         <div class="col-xs-6 col-sm-6 col-md-12">
                             <div class="form-group">
-                                <?php
-                                    echo $this->Form->input('starting_at', ['maxlength'=>'30','escape'=>false,'class' => 'form-control my_date_picker','label'=>'Start Date  <span class="required">*</span>', 'id'=>'teamid','placeholder' => __('Start Date '),'max'=>'20','required']);
-                                ?>
+							<input class="form-control ng-untouched ng-pristine ng-invalid ng-star-inserted" type="date" id="starting_at"  name="starting_at" min ="<?php echo h(date("Y-m-d", strtotime($value->ending_at)+ 86400)) ?>" required/>
+                                <!-- <?php
+                                    echo $this->Form->input('starting_at', ["type"=>"date",'maxlength'=>'30','escape'=>false,'class' => 'form-control ','label'=>'Start Date  <span class="required">*</span>', 'id'=>'teamid','placeholder' => __('Start Date '),"min"=>"2022-06-20","max"=>"2022-06-25",'autocomplete'=>'off','required']);
+                                ?> -->
                                 <!-- <p id="teamNameCheck" style="color: red;">Plz Enter Team Name</p> -->
                             </div>
                         </div>
 
                         <div class="col-xs-6 col-sm-6 col-md-12">
                             <div class="form-group">
-                                <?php
-                                    echo $this->Form->input('ending_at', ['maxlength'=>'30','escape'=>false,'class' => 'form-control my_date_picker','label'=>'End Date <span class="required">*</span>', 'id'=>'displayname','placeholder' => __('End Date'),'max'=>'20','required']);
-                                ?>
+							<input class="form-control ng-untouched ng-pristine ng-invalid ng-star-inserted" type="date" id="ending_at"  name="ending_at" min ="<?php echo h(date("Y-m-d", strtotime($value->ending_at)+ 86400)) ?>" required/>
+                                <!-- <?php
+                                    echo $this->Form->input('ending_at', ['maxlength'=>'30','escape'=>false,'class' => 'form-control ','label'=>'End Date <span class="required">*</span>', 'id'=>'displayname','placeholder' => __('End Date'),'max'=>'20','required'] );
+                                ?> -->
                                 <!-- <p id="teamNameCheck" style="color: red;">Plz Enter Team Name</p> -->
                             </div>
                         </div>

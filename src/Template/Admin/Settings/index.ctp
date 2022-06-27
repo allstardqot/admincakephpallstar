@@ -46,13 +46,13 @@
 
 									<div class="form-group">
 										<?php
-											echo $this->Form->input('facbook_url',['type'=>'text','escape'=>false,'class' => 'form-control','label'=>'Admin Facebook <span class="required">*</span>', 'placeholder' => __('Admin Facebook')]);
+											echo $this->Form->input('telegram_link',['type'=>'text','escape'=>false,'class' => 'form-control','label'=>'Admin Telegram <span class="required">*</span>', 'placeholder' => __('Admin Telegram')]);
 										?>
 									</div>
 
 									<div class="form-group">
 										<?php
-											echo $this->Form->input('youtube_link',['type'=>'text','escape'=>false,'class' => 'form-control','label'=>'Admin Youtube <span class="required">*</span>', 'placeholder' => __('Admin Youtube')]);
+											echo $this->Form->input('discord_url',['type'=>'text','escape'=>false,'class' => 'form-control','label'=>'Admin Discord <span class="required">*</span>', 'placeholder' => __('Admin Discord')]);
 										?>
 									</div>
 
@@ -64,7 +64,7 @@
 
 									<div class="form-group">
 										<?php
-											echo $this->Form->input('linkdin_url',['type'=>'text','escape'=>false,'class' => 'form-control','label'=>'Lindkin<span class="required">*</span>', 'placeholder' => __('Admin Linkdin')]);
+											echo $this->Form->input('twitter_url',['type'=>'text','escape'=>false,'class' => 'form-control','label'=>'Twitter<span class="required">*</span>', 'placeholder' => __('Admin Twitter')]);
 										?>
 									</div>
 

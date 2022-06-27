@@ -17,6 +17,7 @@ class WeekController extends AppController {
 		parent::initialize();
 		$this->loadComponent('Cookie');
         $this->loadModel('Week');
+        $this->loadModel('Week');
 	}
 	
 	public function index() {
@@ -24,7 +25,7 @@ class WeekController extends AppController {
 		$this->set('title_for_layout', __('Week List'));
 		$limit	=	Configure::read('ADMIN_PAGE_LIMIT');
 		 $query = $Week->find();
-// pr($this->request->getData('action'));die;
+
         if($this->request->getData('action') == 'addWeek'){
             $week	=	$this->Week->newEntity();
 			
@@ -53,8 +54,8 @@ class WeekController extends AppController {
         // echo $eid;die;
 		$weeks	=	$Week->get($eid);
 		
-        // pr()
-		// pr($weeks);die;
+        $last_date = $this->Week->find()->select(['id','ending_at'])->order(['id'=>'DESC'])->first();
+		// pr($last_date);die;
 		if( $this->request->getData('action') == 'editsWeek') {
 			// pr($this->request->getData('editsTeam'));die;
 
@@ -69,7 +70,7 @@ class WeekController extends AppController {
 				$this->Flash->error(__('Please correct errors listed as below'));
 			}
 		}
-		$this->set(compact('weeks'));
+		$this->set(compact('weeks','last_date'));
 	}
 	
     public function status($id = NULL) {
@@ -84,12 +85,20 @@ class WeekController extends AppController {
     }
 	
 	public function delete($id = null) {
-		$result	=	$this->Week->get($id);
-		if($this->Week->delete($result)) {
-			$this->Flash->success(__('week has been deleted.'));
-			return $this->redirect($this->referer());
+		$userTeams = TableRegistry::get('user_teams');
+		$uTeams = $userTeams->find()->where(['week'=>$id])->first();
+		if(empty($uTeams)){
+			$result	=	$this->Week->get($id);
+			// pr($result);die;
+			if($this->Week->delete($result)) {
+				$this->Flash->success(__('week has been deleted.'));
+				return $this->redirect($this->referer());
+			}
+			
 		}
-		$this->Flash->error(__('week could not be deleted, please try again.'));
+		
+		$this->Flash->error(__('you could not delete week,'));
+		return $this->redirect($this->referer());
 	}
 	
 	

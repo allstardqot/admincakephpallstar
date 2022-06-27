@@ -38,22 +38,23 @@ class SettingsController extends AppController {
 		}
 		if($this->request->is(['patch', 'post', 'put'])) {
 			// $siteLogo	=	$setting->site_logo;
-			$adminBack	=	$setting->admin_background;
-			$this->Settings->patchEntity($setting, $this->request->getData(), ['validate' => 'Default']);
+			// pr($this->request->getData());die;
+			// $adminBack	=	$setting->admin_background;
+			$this->Settings->patchEntity($setting, $this->request->getData());
 			// pr($setting->errors());die;
 			if(!$setting->errors()) {
-				if(!empty($this->request->getData('admin_background')['name'])) {
-					$file	=	$this->request->getData('admin_background');
-					$fileArr	=	explode('.',$file['name']);
-					$ext		=	end($fileArr);
-					$fileName	=	'background_'.time().'.'.$ext;
-					$filePath	=	WWW_ROOT .'uploads/settings/'.$fileName;
-					if(move_uploaded_file($file['tmp_name'],$filePath)) {
-						$setting->admin_background	=	$fileName;
-					}
-				} else {
-					$setting->admin_background	=	$adminBack;
-				}
+				// if(!empty($this->request->getData('admin_background')['name'])) {
+				// 	$file	=	$this->request->getData('admin_background');
+				// 	$fileArr	=	explode('.',$file['name']);
+				// 	$ext		=	end($fileArr);
+				// 	$fileName	=	'background_'.time().'.'.$ext;
+				// 	$filePath	=	WWW_ROOT .'uploads/settings/'.$fileName;
+				// 	if(move_uploaded_file($file['tmp_name'],$filePath)) {
+				// 		$setting->admin_background	=	$fileName;
+				// 	}
+				// } else {
+					$setting->phone	=	$this->request->getData('phone');
+				// }
 				if($this->Settings->save($setting)) {
 					$this->Flash->success(__('Setting has been updated successfully.'));
 					return $this->redirect(['action' => 'index']);

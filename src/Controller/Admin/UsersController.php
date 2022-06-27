@@ -21,6 +21,10 @@ use Cake\Routing\Router;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Cake\Collection\Collection;
+use Cake\ORM\TableRegistry;
+// use Cake\Auth\WeakPasswordHasher;
+use Cake\Utility\Security;
+use Cake\Auth\DefaultPasswordHasher;
 
 class UsersController extends AppController {
 
@@ -232,6 +236,7 @@ class UsersController extends AppController {
 
     }
 
+
     public function index() {
         if (!empty($this->request->query)) {
             $this->request->session()->write('sorting_query', $this->request->query);
@@ -247,6 +252,46 @@ class UsersController extends AppController {
         if ($this->request->is('Ajax')) {
             $this->viewBuilder()->layout(false);
         }
+
+
+		if ($this->request->is('post') && $this->request->getData('action') == 'resestpass' ) { 
+               
+			$settingsTable = $this->loadModel('Users');
+			$sub_id        = $this->request->getData('sub_id');
+			// pr($sub_id);die;
+
+			$settings = $this->Users->get($sub_id);
+			if ($this->request->is(['post', 'put'])) {
+
+				// $hasher = new DefaultPasswordHasher();
+				
+				// $settingsTable = $this->Users->get('Users');
+				// $settings = $this->Users->get($sub_id);
+				$this->Users->patchEntity($settings,$this->request->getData(), ['validate' => true]);
+				// $settings->password = password_hash($this->request->getData('password'),PASSWORD_DEFAULT);
+				$errros = $settings->getErrors();
+
+				$pass_error = 'Password not updated.';
+				if(!empty($errros['confirm_password'])){
+					// pr($errros);die;
+					$pass_error = $errros['confirm_password']['match'];
+				}
+
+				if($this->Users->save($settings)){
+					$this->Flash->success(__('Password has been updated.'));
+					return $this->redirect(['action' => 'index']);
+				}else{
+					$this->Flash->error(__($pass_error));
+					return $this->redirect(['action' => 'index']);
+				}
+        	}
+			
+			
+			// if($this->BankDetails->save($bank_data)){
+			// 	$this->Flash->success('Bank has been added successfully.');
+			// 	return $this->redirect(['action' => 'index']);
+			// }	
+		}
 	
 		$reqData=$this->request->query;
 		
@@ -258,7 +303,7 @@ class UsersController extends AppController {
 			 }
 			 
 		}
-	// pr($condition);die;
+			// pr($condition);die;
         $query = $this->Users->find()->where([$condition,'Users.role_id' => $role_id,'Users.delete_status !='=>1]);
 
 		if(isset($this->request->query) && $this->request->query('unverified') != '') {
@@ -412,38 +457,186 @@ class UsersController extends AppController {
         $this->Flash->error(__('User status could not be changed, please try again.'));
     }
 
-    public function edit($id = NULL) {
-        $this->set('title_for_layout', __('Edit User'));
-        try {
-            $user = $this->Users->get($id);
-        } catch (\Throwable $e) {
-            $this->Flash->error(__('Invaild attempt.'));
-            return $this->redirect(['action' => 'index']);
-        } catch (\Exception $e) {
-            $this->Flash->error(__('Invaild attempt.'));
-            return $this->redirect(['action' => 'index']);
-        }
-        if ($this->request->is(['patch', 'post', 'put'])) {
+    public function edit() {
+		$this->viewBuilder()->setLayout('ajax');
+		$this->loadModel('Users');
+		$this->loadModel('Payment');
+
+		$eid = $_POST['eid'];
+		// echo $eid;die;
+		$adminUser	=	$this->Users->get($eid);
+		
+		if ( $this->request->getData('action') == 'edituser' ) {
+			$eid = $this->request->getData('eid');
+			$adminUser	=	$this->Users->get($eid);
+			$this->Users->patchEntity($adminUser, $this->request->getData());
 			
-			$getData=$this->request->getData();
-			if(!empty($getData['ch_password'])){
-				$getData['password']=$getData['ch_password'];
+			if ($this->Users->save($adminUser)) {
+				$hidden_wallet = $this->request->getData('hidden_wallet');
+				$wallet = $this->request->getData('wallet');
+				$type  ='';
+				
+				if($hidden_wallet < $wallet){
+					$wallet = $wallet-$hidden_wallet;
+					$type = 'ADMIN ADDED';
+				}else{
+					$type = 'ADMIN DEDUCT';
+					$wallet = $hidden_wallet-$wallet;
+				}
+				$Payment = $this->Payment->newEntity();
+				// $Payment = $this->Payment->patchEntity($Payment);
+				$Payment->user_id = $eid;
+				$Payment->amount = $wallet;
+				//$Payment->status = 1;
+
+				$Payment->transaction_id = uniqid();
+				$Payment->type = $type;
+				$this->Payment->save($Payment);
+				// $Payment->transaction_id = $eid;
+				// $Payment->transaction_id = $eid;
+
+
+				$this->Flash->success(__(' User has been updated'));
+				return $this->redirect(['action' => 'index']);
 			}
-			//pr($getData);die;
-            $user = $this->Users->patchEntity($user, $getData, ['validate' => 'AddEditUser']);
-            if (empty($user->errors())) {
-				$user->modified	=	date("Y-m-d H:i:s");
-                if ($this->Users->save($user)) {
-                    $this->Flash->success(__('User has been updated'));
-                    return $this->redirect(['action' => 'index', '?' => $this->request->session()->read('sorting_query')]);
-                }
-                $this->Flash->error(__('User could not be added, please try again.'));
-            } else {
-                $this->Flash->error(__('Please correct errors listed as below.'));
-            }
-        }
-        $this->set(compact('user'));
+				
+		}
+		$this->set(compact('adminUser'));
     }
+
+	public function view($id=null){
+
+		$this->set('title_for_layout', __('Users Pool'));
+		$this->loadModel('UserPool');
+		$query = $this->UserPool->find()->where(['user_id'=>$id])->contain('Users')->toArray();
+
+		
+        $this->set(compact('query'));
+
+	}
+
+	public function viewcontest($id=null){
+		$this->viewBuilder()->setLayout('ajax');
+		$contest = TableRegistry::getTableLocator()->get('user_contests');
+		$teams = TableRegistry::getTableLocator()->get('user_teams');
+		$players = TableRegistry::getTableLocator()->get('Player');
+		$id = $_POST['eid'];
+		$innerHtml =''; 
+		$usercontest = $contest->find()->where(['pool_id'=>$id])->first();
+		if(!empty($usercontest)){
+			$userteams   = $teams->get($usercontest->id);
+
+			$palyerId = json_decode($userteams->players,true);
+			$player   = $players->find()->where(['Player.id IN'=>$palyerId])->contain('Positions')->toArray();
+			// pr($palyerId,true));die;
+		
+	
+			
+			foreach($player as $data){
+				$innerHtml =  '<div class="player-data">
+				<table class="table">
+					<tbody>
+						<tr>
+							<td>
+								<div class="user-detail-card">
+								
+									<img src="'.$data->image_path.'" width="80" class="img-responsive" alt="">
+									<div class="contents">
+									<h5>'.$data->position->name.'</h5>
+									<small>'.$data->fullname.'</small>
+									</div>
+
+								</div>
+							</td>
+						</tr>
+						
+						
+					</tbody>
+				</table>
+			</div>';
+				
+			}
+				
+				// <div><img src="'.$data->image_path.'" alt="" id="img"></div><div><span id="playerName">'.$data->fullname.'</span></div>';
+				echo $innerHtml;
+			
+
+		}else{
+			$innerHtml =  '<div class="player-data">
+				<table class="table">
+					<tbody>
+						<tr>
+							<td>
+								<div class="user-detail-card">
+								
+									
+									
+									<h5>Plz Join Team In This Pool</h5>
+									
+
+								</div>
+							</td>
+						</tr>
+						
+						
+					</tbody>
+				</table>
+			</div>';
+				
+				
+				
+				// <div><img src="'.$data->image_path.'" alt="" id="img"></div><div><span id="playerName">'.$data->fullname.'</span></div>';
+				echo $innerHtml;
+		}
+			die;
+
+
+		
+		// exit();
+	}
+
+	public function transection($id=null){
+		$this->set('title_for_layout', __('User Transection'));
+		$this->loadModel('Payment');
+		$query = $this->Payment->find()->where(['user_id'=>$id])->contain('Users')->toArray();
+
+		
+        $this->set(compact('query'));
+	}
+
+	public function enquiry(){
+		$this->set('title_for_layout', __('Enquiry List'));
+		$limit = 10;
+		$enquiry  = TableRegistry::getTableLocator()->get('enquiry_details');
+
+		$query = $enquiry->find();
+
+        $users = $this->paginate($query, [
+			'limit'		=>	$limit,
+			
+		]);
+		//pr($users);die;
+
+		if(isset($this->request->params['?']['page'])){
+			$page = $this->request->params['?']['page'];
+		}else{
+			$page = '';
+		}
+		
+        $this->set(compact('users','page'));
+
+	}
+
+	public function enquirydelete($id){
+		$enquiry  = TableRegistry::getTableLocator()->get('enquiry_details');
+
+		$result	=	$enquiry->get($id);
+		if($enquiry->delete($result)) {
+			$this->Flash->success(__('Enquiry has been deleted.'));
+			return $this->redirect($this->referer());
+		}
+		$this->Flash->error(__('Enquiry could not be deleted, please try again.'));
+	}
 
     public function detail($id = NULL) {
         $this->set('title_for_layout', __('User Detail'));
@@ -604,461 +797,60 @@ class UsersController extends AppController {
 		$this->set(compact('user'));
 	}
 	
-	public function verifyAccountEmail($verifyStr = null) {
-		$this->loadModel('Users');
-		$user	=	$this->Users->find()->where(['verify_string'=>$verifyStr,'status'=>ACTIVE])->first();
-		if(!empty($user)) {
-			$user->verify_string	=	'';
-			$user->email_verified	=	true;
-			$this->Users->save($user);
-			$this->Flash->success('Your account verified successfully.');
-			$this->redirect(['controller'=>'Users','action'=>'login']);
-		} else {
-			$this->Flash->error('Verification link is not valid.');
-			$this->redirect(['controller'=>'Users','action'=>'login']);
-		}
-	}
-
-	public function panDetail() {
-		$this->viewBuilder()->layout(false);
-		$userId	=	$this->request->data['uset_id'];
-		$type	=	$this->request->data['type'];
-		$page	=	$this->request->data['page'];
-		$this->set(compact('userId','type','page'));
-	}
-
-	public function addPanDetail() {
-		$this->viewBuilder()->layout(false);
-		$this->loadModel('PenAadharCard');
-
-		$action	=	$this->request->data['action'];
-
-		if( $action == 'addPanDetail' || $action == 'savePandDetail' ){
-			$pan = $this->PenAadharCard->newEntity();
-			$userId	=	$this->request->data['uset_id'];
-			$type	=	$this->request->data['type'];
-			$page	=	$this->request->data['page'];
-		} else {
-			$type	=	'pan_card';
-			$page	=	'';
-			$userId	=	(isset($this->request->data['user_id'])) ? $this->request->data['user_id'] : $this->request->data['uset_id'] ;
-			$pan	=	$this->PenAadharCard->find()->where(['user_id'=>$userId])->first();
-			$pan->date_of_birth	=	date('Y-m-d',strtotime($pan->date_of_birth));
-		}
-
+	public function usertransection(){
+		if (!empty($this->request->query)) {
+            $this->request->session()->write('sortingquery', $this->request->query);
+        }
 		
-        if ($this->request->is(['patch', 'post', 'put']) && $action != 'addPanDetail' && $action != 'editPanDetail' ) {
+		$this->set('title_for_layout', __('User Transection'));
+		$this->loadModel('Payment');
+		$this->request->session()->delete('sortingquery');
+		$condition='';
+        if (!empty($this->request->query)) {
+			// pr($reqData);die;
+			$this->request->session()->write('sortingquery', $this->request->query);
+        }
+		$limit	=	Configure::read('ADMIN_PAGE_LIMIT');
 
-			$pan = $this->PenAadharCard->patchEntity($pan, $this->request->getData());
-
-			if( !empty($this->request->getData('pan_image_upload') )) {
-				$file		=	$this->request->getData('pan_image_upload');
-				if(!empty($file['name'])){
-					$fileArr	=	explode('.',$file['name']);
-					$ext		=	end($fileArr);
-					$fileName	=	time().$userId.'.'.$ext;
-					$filePath	=	$filePath	=	WWW_ROOT .'uploads/pan_image/'.$fileName;
-					move_uploaded_file($file['tmp_name'],$filePath);
-					if(!empty( $pan->pan_image )){
-						unlink( WWW_ROOT .'uploads/pan_image/'.$pan->pan_image );
-					}
-					$pan->pan_image	=	$fileName;
-				}
+		$reqData=$this->request->query;
+		if(!empty($reqData)){
+			// pr($reqData);die;
+			//$condition=['OR'=>[['full_name'=>$reqData['full_name']],['email'=>$reqData['email']],['phone'=>$reqData['phone']],['created'=>$reqData['created']],['modified'=>$reqData['modified']]]];
+			if(!empty($reqData['user_name'])){
+				$condition=['Users.user_name LIKE'=>$reqData['user_name']];
 			}
 			
-            if (empty($pan->errors())) {
-                $pan->user_id = $userId;
-                $pan->is_verified = 1;
-				
-				if( $action =='updatePandDetail' ){
-					$pan->modified	=	date("Y-m-d H:i:s");
-				} else {
-					$pan->created	=	date("Y-m-d H:i:s");
-				}
-				
-				//pr($pan);die;
-                if ($this->PenAadharCard->save($pan)) {
-					
-					if( $action =='updatePandDetail' ){
-						$this->Flash->success(__('Pan Detail has been updated'));
-					} else {
-						$this->Flash->success(__('Pan Detail has been added'));
-					}
-                    return $this->redirect(['action' => 'index']);
-                }
-                $this->Flash->error(__('Pan Detail could not be added/Updated. Please, try again.'));
-            } else {
-                $this->Flash->error(__('Please correct errors listed as below.'));
-            }
-		}
+	   }
+		// pr
 		
-		$this->set(compact('pan','userId','type','page','action'));
-	}
+		$query = $this->Payment->find()->where($condition)->contain('Users');
 
-	public function verifyPan($userId = null,$page=null) {
-		$this->viewBuilder()->layout();
-		$this->loadModel('PenAadharCard');
-		$userId	=	$this->request->data['user_id'];
-		$user	=	$this->PenAadharCard->find()->where(['user_id'=>$userId])->first();
-		if(!empty($user)) {
-			if($user->is_verified == false) {
-				$user->is_verified	=	true;
-				$this->loadModel('Users');
-				$usersData	=	$this->Users->find()->where(['id'=>$userId])->first();
-				if($this->PenAadharCard->save($user)) {
-					$user_id     	=   $usersData->id;
-					$deviceType     =   $usersData->device_type;
-					$deviceToken    =   $usersData->device_id;
-					$notiType       =   '10';
-					
-					$title = 'Verified  Pan Detail';
-					$notification = 'Your  pan detail has been verified.';
-					if(($deviceType=='Android') && ($deviceToken!='')){
-						$this->sendNotificationFCM($user_id,$notiType,$deviceToken,$title,$notification,'');
-					} 
-					if(($deviceType=='iphone') && ($deviceToken!='') && ($deviceToken!='device_id')){
-						$this->sendNotificationAPNS($user_id,$notiType,$deviceToken,$title,$notification,'');
-					}
-					$this->Flash->success(__('Pan detail updated successfully.',true));
-				} else {
-					$this->Flash->error(__('Pan card detail could not update.',true));
-				}
-			} else {
-				$this->Flash->error(__('Pan card detail already verified.',true));
-			}
+		if(isset($this->request->query) && $this->request->query('unverified') != '') {
+			$unverified	=	$this->request->query('unverified');
 		} else {
-			$this->Flash->error(__('Pan card detail does not exists',true));
+			$unverified	=	'';
 		}
-		// $this->redirect(['controller'=>'users','action'=>'index?page='.$page.'']);
-		// $this->Flash->error(__('Pan card detail does not exists',true));
-		exit;
-	}
-	
-	public function cancelPan($userId = null,$page=null) {
-		$this->viewBuilder()->layout();
-		$this->loadModel('PenAadharCard');
+
+		if(isset($this->request->query['unverified']) && ($this->request->query['unverified']=='checked')){
+        
+        	$query = $this->Payment->find('search', ['search' => $this->request->query])->where($condition)->contain('Users');
+        }
 		
-		$userId	=	$this->request->data['user_id'];
-		$user	=	$this->PenAadharCard->find()->where(['user_id'=>$userId])->first();
-		if(!empty($user)) {
-			if($user->is_verified == false) {
-				$user->is_verified	=	2;
-				$this->loadModel('Users');
-				$usersData	=	$this->Users->find()->where(['id'=>$userId])->first();
-				if($this->PenAadharCard->save($user)) {
-					$user_id     	=   $usersData->id;
-					$deviceType     =   $usersData->device_type;
-					$deviceToken    =   $usersData->device_id;
-					$notiType       =   '10';
-					
-					$title = 'Cancel Bank Detail';
-					$notification = 'Your pan detail has been cancelled, please update again.';
-					if(($deviceType=='Android') && ($deviceToken!='')){
-						$this->sendNotificationFCM($user_id,$notiType,$deviceToken,$title,$notification,'');
-					} 
-					if(($deviceType=='iphone') && ($deviceToken!='') && ($deviceToken!='device_id')){
-						$this->sendNotificationAPNS($user_id,$notiType,$deviceToken,$title,$notification,'');
-					}
-					$this->Flash->success(__('Pan detail cancelled successfully.',true));
-				} else {
-					$this->Flash->error(__('Pan card detail could not cancel.',true));
-				}
-			} else {
-				$this->Flash->error(__('Pan card detail already cancelled.',true));
-			}
-		} else {
-			$this->Flash->error(__('Pan card detail does not exists',true));
-		}
-		// $this->redirect(['controller'=>'users','action'=>'index?page='.$page.'']);
-		exit;
-	}
 
-
-	
-	public function addBankDetail() {
-		$this->viewBuilder()->layout(false);
-		$this->loadModel('BankDetails');
-
-		$action	=	$this->request->data['action'];
-
-		if( $action == 'addBankDetail' || $action == 'saveBankDetail' ){
-			$bank = $this->BankDetails->newEntity();
-			$userId	=	$this->request->data['uset_id'];
-			$type	=	$this->request->data['type'];
-			$page	=	$this->request->data['page'];
-		} else {
-			$type	=	'bank_detail';
-			$page	=	'';
-			$userId	=	(isset($this->request->data['user_id'])) ? $this->request->data['user_id'] : $this->request->data['uset_id'] ;
-			$bank	=	$this->BankDetails->find()->where(['user_id'=>$userId])->first();
-		}
-
-		
-        if ($this->request->is(['patch', 'post', 'put']) && $action != 'addBankDetail' && $action != 'editBankDetail' ) {
-
-			$bank = $this->BankDetails->patchEntity($bank, $this->request->getData());
-
-			if( !empty($this->request->getData('bank_image_upload') )) {
-				$file		=	$this->request->getData('bank_image_upload');
-				if(!empty($file['name'])){
-					$fileArr	=	explode('.',$file['name']);
-					$ext		=	end($fileArr);
-					$fileName	=	time().$userId.'.'.$ext;
-					$filePath	=	$filePath	=	WWW_ROOT .'uploads/bank_proof/'.$fileName;
-					move_uploaded_file($file['tmp_name'],$filePath);
-					if(!empty( $bank->bank_image )){
-						unlink( WWW_ROOT .'uploads/bank_proof/'.$bank->bank_image );
-					}
-					$bank->bank_image	=	$fileName;
-				}
-			}
+		$users = $this->paginate($query, [
+			'limit'		=>	$limit,
 			
-            if (empty($bank->errors())) {
-                $bank->user_id = $userId;
-                $bank->is_verified = 1;
-				
-				if( $action =='updateBankDetail' ){
-					$bank->modified	=	date("Y-m-d H:i:s");
-				} else {
-					$bank->created	=	date("Y-m-d H:i:s");
-				}
-				
-				//pr($bank);die;
-                if ($this->BankDetails->save($bank)) {
-					
-					if( $action =='updateBankDetail' ){
-						$this->Flash->success(__('Bank Detail has been updated'));
-					} else {
-						$this->Flash->success(__('Bank Detail has been added'));
-					}
-                    return $this->redirect(['action' => 'index']);
-                }
-                $this->Flash->error(__('Bank Detail could not be added/Updated. Please, try again.'));
-            } else {
-                $this->Flash->error(__('Please correct errors listed as below.'));
-            }
+		]);
+		//pr($users);die;
+
+		if(isset($this->request->params['?']['page'])){
+			$page = $this->request->params['?']['page'];
+		}else{
+			$page = '';
 		}
 		
-		$this->set(compact('bank','userId','type','page','action'));
-    }
-	
-	public function verifyBank($userId = null,$page=null) {
-		$this->viewBuilder()->layout();
-		$this->loadModel('BankDetails');
-		$userId	=	$this->request->data['user_id'];
-		$user	=	$this->BankDetails->find()->where(['user_id'=>$userId])->first();
-		if(!empty($user)) {
-			if($user->is_verified == false) {
-				$user->is_verified	=	true;
-				$this->loadModel('Users');
-				$usersData	=	$this->Users->find()->where(['id'=>$userId])->first();
-				if($this->BankDetails->save($user)) {
-					$user_id     	=   $usersData->id;
-					$deviceType     =   $usersData->device_type;
-					$deviceToken    =   $usersData->device_id;
-					$notiType       =   '10';
-					
-					$title = 'Verified Bank Detail';
-					$notification = 'Your bank detail has been verified.';
-					if(($deviceType=='Android') && ($deviceToken!='')){
-						$this->sendNotificationFCM($user_id,$notiType,$deviceToken,$title,$notification,'');
-					} 
-					if(($deviceType=='iphone') && ($deviceToken!='') && ($deviceToken!='device_id')){
-						$this->sendNotificationAPNS($user_id,$notiType,$deviceToken,$title,$notification,'');
-					}
-					$this->Flash->success(__('Bank Detail updated successfully.',true));
-				} else {
-					$this->Flash->error(__('Bank detail could not update.',true));
-				}
-			} else {
-				$this->Flash->error(__('Bank detail already verified.',true));
-			}
-		} else {
-			$this->Flash->error(__('Bank detail does not exists',true));
-		}
-		// $this->redirect(['controller'=>'users','action'=>'index?page='.$page.'']);
-		exit;
-	}
-	
-	public function cancelBank($userId = null,$page=null) {
-		$this->viewBuilder()->layout();
-		$this->loadModel('BankDetails');
-		$userId	=	$this->request->data['user_id'];
-		$user	=	$this->BankDetails->find()->where(['user_id'=>$userId])->first();
-		if(!empty($user)) {
-			if($user->is_verified == false) {
-				$user->is_verified	=	2;
-				$this->loadModel('Users');
-				$usersData	=	$this->Users->find()->where(['id'=>$userId])->first();
-				if($this->BankDetails->save($user)) {
-					$user_id     	=   $usersData->id;
-					$deviceType     =   $usersData->device_type;
-					$deviceToken    =   $usersData->device_id;
-					$notiType       =   '10';
-					
-					$title = 'Cancel Bank Detail';
-					$notification = 'Your bank detail has been cancelled, please update again.';
-					if(($deviceType=='Android') && ($deviceToken!='')){
-						$this->sendNotificationFCM($user_id,$notiType,$deviceToken,$title,$notification,'');
-					} 
-					if(($deviceType=='iphone') && ($deviceToken!='') && ($deviceToken!='device_id')){
-						$this->sendNotificationAPNS($user_id,$notiType,$deviceToken,$title,$notification,'');
-					}
-					$this->Flash->success(__('Bank detail cancelled successfully.',true));
-				} else {
-					$this->Flash->error(__('Bank detail could not cancel.',true));
-				}
-			} else {
-				$this->Flash->error(__('Bank detail already cancelled.',true));
-			}
-		} else {
-			$this->Flash->error(__('Bank detail does not exists',true));
-		}
-		// $this->redirect(['controller'=>'users','action'=>'index?page='.$page.'']);
-		exit;
-	}
+		$this->set(compact('users','page','unverified'));
 
-	public function addAadharDetail() {
-		$this->viewBuilder()->layout(false);
-		$this->loadModel('AadharCard');
-
-		$action	=	$this->request->data['action'];
-
-		if( $action == 'addAadharDetail' || $action == 'saveAadharDetail' ){
-			$bank = $this->AadharCard->newEntity();
-			$userId	=	$this->request->data['uset_id'];
-			$type	=	$this->request->data['type'];
-			$page	=	$this->request->data['page'];
-		} else {
-			$type	=	'aadhar_detail';
-			$page	=	'';
-			$userId	=	(isset($this->request->data['user_id'])) ? $this->request->data['user_id'] : $this->request->data['uset_id'] ;
-			$bank	=	$this->AadharCard->find()->where(['user_id'=>$userId])->first();
-		}
-
-		
-        if ($this->request->is(['patch', 'post', 'put']) && $action != 'addAadharDetail' && $action != 'editAadharDetail' ) {
-
-			$bank = $this->AadharCard->patchEntity($bank, $this->request->getData());
-
-			if( !empty($this->request->getData('aadhar_image_upload') )) {
-				$file		=	$this->request->getData('aadhar_image_upload');
-				if(!empty($file['name'])){
-					$fileArr	=	explode('.',$file['name']);
-					$ext		=	end($fileArr);
-					$fileName	=	time().$userId.'.'.$ext;
-					$filePath	=	$filePath	=	WWW_ROOT .'uploads/pan_image/'.$fileName;
-					move_uploaded_file($file['tmp_name'],$filePath);
-					if(!empty( $bank->image )){
-						unlink( WWW_ROOT .'uploads/pan_image/'.$bank->image );
-					}
-					$bank->image	=	$fileName;
-				}
-			}
-			
-            if (empty($bank->errors())) {
-                $bank->user_id = $userId;
-                $bank->is_verified = 1;
-				
-				if( $action =='updateAadharDetail' ){
-					$bank->modified	=	date("Y-m-d H:i:s");
-				} else {
-					$bank->created	=	date("Y-m-d H:i:s");
-				}
-				
-				//pr($bank);die;
-                if ($this->AadharCard->save($bank)) {
-					
-					if( $action =='updateAadharDetail' ){
-						$this->Flash->success(__('Aadhar Detail has been updated'));
-					} else {
-						$this->Flash->success(__('Aadhar Detail has been added'));
-					}
-                    return $this->redirect(['action' => 'index']);
-                }
-                $this->Flash->error(__('Aadhar Detail could not be added/Updated. Please, try again.'));
-            } else {
-                $this->Flash->error(__('Please correct errors listed as below.'));
-            }
-		}
-		
-		$this->set(compact('bank','userId','type','page','action'));
-    }
-	
-	public function verifyAadhar($userId = null,$page=null) {
-		$this->viewBuilder()->layout();
-		$this->loadModel('AadharCard');
-		$userId	=	$this->request->data['user_id'];
-		$user	=	$this->AadharCard->find()->where(['user_id'=>$userId])->first();
-		if(!empty($user)) {
-			if($user->is_verified == false) {
-				$user->is_verified	=	true;
-				$this->loadModel('Users');
-				$usersData	=	$this->Users->find()->where(['id'=>$userId])->first();
-				if($this->AadharCard->save($user)) {
-					$user_id     	=   $usersData->id;
-					$deviceType     =   $usersData->device_type;
-					$deviceToken    =   $usersData->device_id;
-					$notiType       =   '10';
-					
-					$title = 'Verified Address ID Detail';
-					$notification = 'Your Address ID has been verified.';
-					if(($deviceType=='Android') && ($deviceToken!='')){
-						$this->sendNotificationFCM($user_id,$notiType,$deviceToken,$title,$notification,'');
-					} 
-					if(($deviceType=='iphone') && ($deviceToken!='') && ($deviceToken!='device_id')){
-						$this->sendNotificationAPNS($user_id,$notiType,$deviceToken,$title,$notification,'');
-					}
-					$this->Flash->success(__('Address ID updated successfully.',true));
-				} else {
-					$this->Flash->error(__('Address ID could not update.',true));
-				}
-			} else {
-				$this->Flash->error(__('Address ID already verified.',true));
-			}
-		} else {
-			$this->Flash->error(__('Address ID does not exists',true));
-		}
-		// $this->redirect(['controller'=>'users','action'=>'index?page='.$page.'']);
-		exit;
-	}
-	
-	public function cancelAadhar($userId = null,$page=null) {
-		$this->viewBuilder()->layout();
-		$this->loadModel('AadharCard');
-		$userId	=	$this->request->data['user_id'];
-		$user	=	$this->AadharCard->find()->where(['user_id'=>$userId])->first();
-		if(!empty($user)) {
-			if($user->is_verified == false) {
-				$user->is_verified	=	2;
-				$this->loadModel('Users');
-				$usersData	=	$this->Users->find()->where(['id'=>$userId])->first();
-				if($this->AadharCard->save($user)) {
-					$user_id     	=   $usersData->id;
-					$deviceType     =   $usersData->device_type;
-					$deviceToken    =   $usersData->device_id;
-					$notiType       =   '10';
-					
-					$title = 'Cancel Address ID';
-					$notification = 'Your Address ID has been cancelled, please update again.';
-					if(($deviceType=='Android') && ($deviceToken!='')){
-						$this->sendNotificationFCM($user_id,$notiType,$deviceToken,$title,$notification,'');
-					} 
-					if(($deviceType=='iphone') && ($deviceToken!='') && ($deviceToken!='device_id')){
-						$this->sendNotificationAPNS($user_id,$notiType,$deviceToken,$title,$notification,'');
-					}
-					$this->Flash->success(__('Address ID cancelled successfully.',true));
-				} else {
-					$this->Flash->error(__('Address ID could not cancel.',true));
-				}
-			} else {
-				$this->Flash->error(__('Address ID already cancelled.',true));
-			}
-		} else {
-			$this->Flash->error(__('Address ID does not exists',true));
-		}
-		// $this->redirect(['controller'=>'users','action'=>'index?page='.$page.'']);
-		exit;
 	}
 	
 }

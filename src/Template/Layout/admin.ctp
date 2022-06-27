@@ -71,7 +71,7 @@ use Cake\Core\Configure;
 		
 		<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js" integrity="sha256-6XMVI0zB8cRzfZjqKcD01PBsAy3FlDASrlC8SxCpInY=" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.6.0/umd/popper.min.js" integrity="sha512-BmM0/BQlqh02wuK5Gz9yrbe7VyIVwOzD1o40yi1IsTjriX/NGF37NyXHfmFzIlMmoSIBXgqDiG1VNU6kB5dBbA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+		
 		<script src="<?= SITE_URL; ?>/webroot/plugins/datepicker/bootstrap-datepicker.js"></script>
 
 		<script src="<?= SITE_URL; ?>/webroot/dist/js/adminlte.js"></script>
@@ -116,6 +116,26 @@ use Cake\Core\Configure;
 						}
 					})
 				});
+
+
+				$('.editUsers').on('click',function(e){
+					e.preventDefault();
+					var val=$(this).val();
+					// alert(val)
+					$.ajax({
+						url:'Users/edit',
+						type:"POST",
+						data: {eid:val},
+						
+						success:function(data){
+							// console.log(data);
+							$("#user_edit").html(data);
+							$('#user_edit').modal('show');
+						}
+					})
+				});
+
+				// 
 
 				$('.pointedit').on('click',function(e){
 					e.preventDefault();
@@ -221,7 +241,13 @@ use Cake\Core\Configure;
 
 				$('#submitWeek').on('click',function(){
 					// alert('asdha');
-					$('#weekform').submit();
+					var starting_at = $('#starting_at').val();
+					var ending_at = $('#ending_at').val();
+					if(ending_at != '' && starting_at != ''){
+						$('#weekform').submit();
+
+					}
+					
 				});
 				// End Week Manager
 
@@ -246,6 +272,30 @@ use Cake\Core\Configure;
 				
 			});
 
+
+			function showTeam(id){
+				
+					// alert(id)
+					var innerHtml ='';
+					$.ajax({
+						url:'/allstaradmin/admin/users/viewcontest',
+						type:"POST",
+						data: {eid:id},
+						// dataType: "json",
+						
+						success:function(data){
+							console.log(data);
+							// var trainindIdArray = JSON.parse(JSON.stringify(data));
+							// $.each(trainindIdArray, function(index, value) { 
+							// 		console.log(value);
+							// 	 innerHtml = ''
+							// });
+							$("#MyPopup").modal("show");
+							$('#modalBody').html(data);
+						}
+					})
+
+			}
 		</script>
 	</body>
 </html>

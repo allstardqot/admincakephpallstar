@@ -39,10 +39,12 @@ class CountryController  extends AppController {
 		$country	=	$Country->get($eid);
 		if( $this->request->getData('action') == 'editsCountry') {
 			//pr($Faq);pr($this->request->getData());die;
+			$iso2 =$this->request->getData('iso2');
+			$iso =$this->request->getData('iso');
 			$eid = $this->request->getData('eid');
 			$country	=	$Country->get($eid);
 			$country	=	$Country->patchEntity($country, $this->request->getData());
-			$country->extra = json_encode($this->request->getData('extra'));
+			$country->extra = json_encode(['iso'=>$iso,'iso2'=>$iso2]);
  			if($Country->save($country)) {
 				$this->Flash->success(__('Country has been updated successfully.'));
 				return $this->redirect(['action' => 'index']);

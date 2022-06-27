@@ -13,6 +13,8 @@
 			<?php echo $this->Form->create($country, ['type' => 'file','id'=>'editPlayerForm']); 
 			    echo $this->Form->hidden('action',['value' => 'editsCountry']);
                 $extra = json_decode($country->extra) ;
+				$iso2 = isset($extra->iso2)?$extra->iso2:'';
+				$iso =  isset($extra->iso)?$extra->iso:'';
 			// pr($extra);die;
 			// echo $this->Form->hidden()
 			
@@ -32,7 +34,7 @@
 				<div class="col-xs-6 col-sm-6 col-md-12">
 					<div class="form-group">
 						<?php
-							echo $this->Form->input('extra[]', ['value'=>$extra->iso2,'maxlength'=>'30','escape'=>false,'class' => 'form-control','label'=>'Display Name <span class="required">*</span>', 'id'=>'displayname','placeholder' => __('Display Name'),'max'=>'20']);
+							echo $this->Form->input('iso2', ['value'=>$iso2,'maxlength'=>'30','escape'=>false,'class' => 'form-control','label'=>'Display Name <span class="required">*</span>', 'id'=>'displayname','placeholder' => __('Display Name'),'max'=>'20']);
 						?>
 						<!-- <p id="teamNameCheck" style="color: red;">Plz Enter Team Name</p> -->
 					</div>
@@ -41,7 +43,7 @@
                 <div class="col-xs-6 col-sm-6 col-md-12">
 					<div class="form-group">
 						<?php
-							echo $this->Form->input('extra[]', ['value'=>$extra->iso,'maxlength'=>'30','escape'=>false,'class' => 'form-control','label'=>'Player Name <span class="required">*</span>', 'id'=>'fullname','placeholder' => __('Player Name'),'max'=>'20']);
+							echo $this->Form->input('iso', ['value'=>$iso,'maxlength'=>'30','escape'=>false,'class' => 'form-control','label'=>'Player Name <span class="required">*</span>', 'id'=>'fullname','placeholder' => __('Player Name'),'max'=>'20']);
 						?>
 						<!-- <p id="teamNameCheck" style="color: red;">Plz Enter Team Name</p> -->
 					</div>

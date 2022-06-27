@@ -64,9 +64,10 @@
 										<th class="userEmailField"><?php echo $this->Paginator->sort('Users.email', __('Email')) ?></th>
 										<th><?php echo $this->Paginator->sort('Users.phone', __('Phone')) ?></th>
 										<th><?php echo $this->Paginator->sort('Users.address', __('Address')) ?></th>
-										<th><?php echo $this->Paginator->sort('Users.color', __('Color')) ?></th>
+										<th><?php echo $this->Paginator->sort('Users.wallet', __('Wallet')) ?></th>
+										<!-- <th><?php echo $this->Paginator->sort('Users.color', __('Color')) ?></th>
 										<th><?php echo $this->Paginator->sort('Users.members', __('
-Members')) ?></th>
+Members')) ?></th> -->
 										<!-- <th><?php echo __('Active Status');?></th> -->
 										<th><?php echo __('Action');?></th>
 									</tr>
@@ -96,8 +97,9 @@ Members')) ?></th>
 												<td class="userEmailField"><?php echo h($value->email); ?></td>
 												<td><?php echo h($value->phone); ?></td>
 												<td><?php echo h($value->address); ?></td>
-												<td><?php ?></td>
-												<td><?php ?></td>
+												<td><?php echo h($value->wallet); ?></td>
+												<!-- <td><?php ?></td>
+												<td><?php ?></td> -->
 												<!-- <td class="center">
 													
 													<?php //echo $this->Html->link(($value->approve_status == 1) ? '<span class="btn btn-success">Approved</span>' : '<span class="btn btn-danger">Disapproved</span>', ['prefix' => 'admin', 'controller' => 'Users', 'action' => 'approvestatus', $value->id], ['escape' => false]);?>
@@ -112,10 +114,12 @@ Members')) ?></th>
 												</td> -->
 												<td class="center">
 													<!-- <button escape = false class='btn btn-success' id='editUser' value="<?php echo  $value->id?>">Edit</button> -->
-													
-													<!-- <?php echo $this->Html->link('View', ['controller'=>'Users','action'=>'detail',$value->id],['escape'=>false,'class'=>'btn btn-primary',]); ?> -->
-													<?php echo $this->Html->link('Delete', ['controller'=>'Users','action'=>'Delete',$value->id],['escape'=>false,'class'=>'btn btn-danger',]); ?>
-													
+													<button class = 'btn btn-success editUsers' title = 'Edit User' id='editUsers' value=<?= $value->id;?> >Edit</button>
+													<!-- <?php echo $this->Html->link('View', ['prefix' => 'admin','controller'=>'Users','action'=>'detail',$value->id],['escape'=>false,'class'=>'btn btn-primary','title' => 'Edit User']); ?> -->
+													<?php echo $this->Html->link('Delete', ['controller'=>'Users','action'=>'Delete',$value->id],['escape'=>false,'class'=>'btn btn-danger','title' => 'Delete User']); ?>
+													<?php echo $this->Html->link('View', ['controller'=>'Users','action'=>'view',$value->id],['escape'=>false,'class'=>'btn btn-primary','title' => 'View Pool']); ?>
+													<?php // echo $this->Html->link('Transection', ['controller'=>'Users','action'=>'transection',$value->id],['escape'=>false,'class'=>'btn btn-info','title' => 'View Transection']); ?>
+													<span id="" title = 'Reset Password' class="resetpass" onClick="resetPass(<?php echo $value->id?>)"><i class="fa fa-key status_btn"></i></span>
 													<?php //echo $this->Html->link('Delete User', ['controller'=>'Users','action'=>'delete',$value->id],['escape'=>false,'class'=>'btn btn-danger btn-xs','title'=>'Delete User','onclick'=>"return confirm('Are you sure you want to delete this user?')"]); ?>
 													<?php 
 														if(!empty($value->pen_aadhar_card)) { 
@@ -174,14 +178,83 @@ Members')) ?></th>
         </div>
     </section>
 </div>
+
+<!-- Add Modal -->
+<div class="modal fade" id="resetpassword" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Reset Password</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body">
+				<?php  
+					echo $this->Form->create(null,['class' => 'form-inline ' , 'id'=> 'reset_form']); 
+					echo $this->Form->hidden('action',['value' => 'resestpass']); 
+				?>
+				
+				<table class="table table-bordered responsive">
+
+					<tr>
+						<th>New Password</th>
+						<td>
+							<?php
+								echo $this->Form->input('password',['type'=>'password','class' => 'form-control required','placeholder' => __('Enter  password') ,'id'=>'new_pass', 'label' => false]);
+								echo $this->Form->hidden('sub_id',['id'=>'sub_id']); 
+
+							?>
+						</td>
+					</tr>
+					<tr>
+						<th>Confirm Password *</th>
+						<td>
+							<?php
+								echo $this->Form->input('confirm_password',['type'=>'password','class' => 'form-control required','id'=>'con_pass', 'label' => false, 'placeholder' => __('Enter confirm password')]);
+							?>
+						</td>
+					</tr>
+
+					
+				</table>
+				<?php	
+					echo $this->Form->button(__('Confirm'),['type' => 'button','id'=>'submitconpass', 'class' => 'btn btn-success btn-sm']);
+				?>
+				<?php echo $this->Form->end(); ?>
+			</div>
+		</div>
+	</div>
+</div>
+
+
 <div class="modal fade" id="myModal" role="dialog"></div>
+<div class="modal fade" id="user_edit" role="dialog">
+
+</div>
+
 
 <?= $this->Html->css(['admin/bootstrap-datepicker.min']) ?>
 <?= $this->Html->script(['admin/bootstrap-datepicker.min']) ?>
 <?= $this->Html->script(['admin/jquery-3.2.1']) ?>
 </div>
 <script>
+
+
+	function resetPass(id){
+		$('#sub_id').val(id);
+		$('#resetpassword').modal('show');
+
+	}
+
+	
+
+
+
+
     $(document).ready(function () {
+
+		$('#submitconpass').on('click', function() {
+                    $('#reset_form').submit();
+                });
         var selected	=	[];
         // select all
         $(".selectall").click(function () {

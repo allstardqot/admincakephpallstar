@@ -70,6 +70,18 @@ define('ADMIN_DEDUCTED',15);
 define('POCKER_ENTRY_FEE', 16);
 define('POCKER_WON_PRIZE', 17);
 
+$config['PAYMENT_TYPES'] = [
+	'1'=>'DEPOSIT', 
+	'2'=>'WITHDRAW',
+	'3'=> 'POOL JOIN',
+	'4'=> 'CONTEST WON',
+	'5'=> 'REFUND',
+	'6'=>'ADMIN ADDED',
+	'7'=>'ADMIN DEDUCT',
+	'8'=>'LEVEL BONUS',
+	'9'=>'AFFILIATE COMMISION'
+];
+
 
 $config['TRANSACTION_TYPE']  = 	[
 	CASH_DEPOSIT		=>	'Deposited Cash',
@@ -122,7 +134,7 @@ $config['MODULE_ACCESS']	=	[
 	'Notifications'		=>	'Notification Manager',
 	'Contents'			=>	'Contents Manager',
 	'Settings'			=>	'Settings',
-	'EmailTemplates'				=>	'Email Template',
+	'EmailTemplates'	=>	'Email Template',
 	'profile'			=>	'Profile',
 	'change_password'	=>	'Change Password',
 ];

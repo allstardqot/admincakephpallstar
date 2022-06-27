@@ -197,6 +197,13 @@ echo $this->fetch('content');
                
         });
 
+        $('#edituserBtn').click(function () {
+            // alert('hsd');
+            
+            $( "#editUserForm" ).submit();
+               
+        });
+
 
         // Points update
         $('#pointCheck').hide();   
